@@ -2,6 +2,6 @@
 
 import latte
 
-status = latte.forward(1.2)
-latte.add('test')
+latte.add_layer('debug')
+print latte.forward(1.2)
 

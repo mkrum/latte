@@ -2,6 +2,7 @@
 #include "model.h"
 
 static PyObject *LatteError;
+static Model *model;
 
 //module functions
 static PyObject *
@@ -11,20 +12,18 @@ py_forward(PyObject *self, PyObject *args) {
   if(!PyArg_ParseTuple(args, "d", &num))
     return NULL;
 
-  Model test;
-  num = test.forward(num);
+  num = model->forward(num);
   return PyFloat_FromDouble(num);
 }
 
 static PyObject *
-add(PyObject *self, PyObject *args) {
+add_layer(PyObject *self, PyObject *args) {
   const char * layer_name;
 
   if(!PyArg_ParseTuple(args, "s", &layer_name)) {
     return NULL;
   }
-  system("echo test");
-
+  model->add_layer(layer_name);
   return Py_BuildValue("");
 }
 
@@ -33,7 +32,7 @@ add(PyObject *self, PyObject *args) {
 static PyMethodDef LatteMethods[] = {
     {"forward", py_forward, METH_VARARGS,
      "forward pass"},
-    {"add", add, METH_VARARGS,
+    {"add_layer", add_layer, METH_VARARGS,
       "add a layer to the model"},
     {NULL, NULL, 0, NULL}        /* Sentinel */
 };
@@ -45,7 +44,8 @@ initlatte(void) {
   m = Py_InitModule("latte", LatteMethods);
   if (m == NULL)
     return;
-  
+
+  model = new Model();    
   LatteError = PyErr_NewException("latte.error", NULL, NULL);
   Py_INCREF(LatteError);
   PyModule_AddObject(m, "error", LatteError);
