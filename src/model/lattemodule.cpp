@@ -7,13 +7,8 @@ static Model *model;
 //module functions
 static PyObject *
 py_forward(PyObject *self, PyObject *args) {
-  double num;
-
-  if(!PyArg_ParseTuple(args, "d", &num))
-    return NULL;
-
-  num = model->forward(num);
-  return PyFloat_FromDouble(num);
+  
+  return PyFloat_FromDouble(*model->forward()(0));
 }
 
 static PyObject *

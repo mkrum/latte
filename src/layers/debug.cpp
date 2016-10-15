@@ -1,5 +1,9 @@
 #include <layers/debug.h>
 
-double Debug::forward(double test) {
-  return 2 * test;
+Debug::Debug() { }
+
+Matrix Debug::forward(Matrix test) {
+  double *get = test(0);
+  *get = *get * 2;
+  return test;
 }

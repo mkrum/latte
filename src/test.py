@@ -2,6 +2,7 @@
 
 import latte
 
+latte.add_layer('data')
 latte.add_layer('debug')
-print latte.forward(1.2)
+print latte.forward()
 

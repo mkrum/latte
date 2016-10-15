@@ -6,12 +6,21 @@ Model::Model() {
   }
 }
 
-double Model::forward(double in) {
-  return layers[0]->forward(in);
+Matrix Model::forward() {
+  Matrix inputs;
+  for(int i = 0; i < layers.size(); i++) {
+    inputs = layers[i]->forward(inputs);
+  }
+  return inputs;
 }
 
 void Model::add_layer(std::string layer_name) {
-  Debug *test = new Debug();
-  layers.push_back(test);
+  if (layer_name.compare("debug") == 0) {
+    Debug *test = new Debug();
+    layers.push_back(test);
+  } else {
+    Data *test = new Data();
+    layers.push_back(test);
+  }
 }
 
