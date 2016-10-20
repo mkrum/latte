@@ -1,7 +1,6 @@
 {
   type: TextData
   source: test.txt
-  name: data
   out: data
   out: label
 }

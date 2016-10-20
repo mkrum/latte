@@ -4,5 +4,5 @@ import latte
 
 latte.add_layer('data')
 latte.add_layer('debug')
-print latte.forward()
 
+print latte.forward()

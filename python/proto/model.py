@@ -36,3 +36,5 @@ class Model:
         '''
         Compose the layers into a model
         '''
+        for lay in layers:
+            print lay.
