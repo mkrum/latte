@@ -1,2 +1,2 @@
 # latte
-A minimal dependacy network styled after Caffe, built for customizability
+A minimal dependacy network builder styled after Caffe, built for customizability
