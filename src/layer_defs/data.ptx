@@ -1,0 +1,4 @@
+data {
+  source: layers/data.cpp
+  random: boolean
+}

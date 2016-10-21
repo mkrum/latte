@@ -1,0 +1,9 @@
+data {
+  source: test.txt
+  out: data
+  out: label
+}
+
+debug {
+  x: 2
+}

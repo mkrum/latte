@@ -14,13 +14,8 @@ Matrix Model::forward() {
   return inputs;
 }
 
-void Model::add_layer(std::string layer_name) {
-  if (layer_name.compare("debug") == 0) {
-    Debug *test = new Debug();
-    layers.push_back(test);
-  } else {
-    Data *test = new Data();
-    layers.push_back(test);
-  }
+void Model::add_data_layer(std::string path, bool random) {
+  Data *test = new Data(path, random);
+  layers.push_back(test);
 }
 
