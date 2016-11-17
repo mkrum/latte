@@ -1,9 +1,18 @@
-#include <layers/debug.h>
+#include "layer.h"
 
-Debug::Debug() { }
+PyObject *
+layer_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
+  layer *self = NULL;
+  self->vals = Matrix();
+  return (PyObject *)self;
+}
 
-Matrix Debug::forward(Matrix test) {
-  double *get = test(0);
-  *get = *get * 2;
-  return test;
+PyObject *
+forward(layer *self, PyObject *args) {
+  return (PyObject *)self;
+}
+
+PyObject *
+backward(layer *self, PyObject *args) {
+  return (PyObject *)self;
 }
