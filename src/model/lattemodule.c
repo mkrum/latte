@@ -1,10 +1,6 @@
-#include <Python/Python.h>
-#include <iostream>
-
+#include "Python.h"
 #include "model.h"
 #include "layer.h"
-
-using std::cout;
 
 //Methods Table
 static PyMethodDef LatteMethods[] = {
@@ -16,19 +12,19 @@ PyMODINIT_FUNC
 initlatte(void) {
   PyObject *m;
 
-  m = Py_InitModule("latte", LatteMethods);
+	model_type.tp_new = PyType_GenericNew;
+  layer_type.tp_new = PyType_GenericNew;
+
+	m = Py_InitModule("latte", LatteMethods);
   if (m == NULL)
     return;
 
-  model_type.tp_new = PyType_GenericNew;
-  layer_type.tp_new = PyType_GenericNew;
-
-  if (PyType_Ready(&model_type) < 0 && PyType_Ready(&layer_type) < 0)
+	if (PyType_Ready(&model_type) < 0 || PyType_Ready(&layer_type) < 0)
     return;
 
-  Py_INCREF(&model_type);
-  Py_INCREF(&layer_type);
+  Py_XINCREF(&model_type);
+  Py_XINCREF(&layer_type);
   PyModule_AddObject(m, "model", (PyObject *)&model_type);
   PyModule_AddObject(m, "layer", (PyObject *)&layer_type);
-}
 
+}

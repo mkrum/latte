@@ -1,9 +1,10 @@
 #include "model.h"
+#include <Python.h>
 
 PyObject *
 model_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
   model *self = NULL;
-  self->layers = new PyObject*[100];
+  self->layers = (PyObject *)malloc(sizeof(PyObject*) * 100);
   self->index = 0;
   return (PyObject *)self;
 }
@@ -17,4 +18,3 @@ add_layer(model *self, PyObject *args) {
   self->layers[self->index] = layer;
   return (PyObject *)self;
 }
-

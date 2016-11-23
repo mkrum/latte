@@ -1,34 +1,37 @@
-#ifndef LAYER_H
-#define LAYER_H
-
 #include <Python.h>
 #include "structmember.h"
 
 typedef struct {
   PyObject_HEAD
-} layer;
+  PyObject** layers;
+  int index;
+} model;
 
-PyObject* layer_new(PyTypeObject *, PyObject *, PyObject *);
-PyObject* forward(layer *, PyObject*);
-PyObject* backward(layer *, PyObject*);
+PyObject *
+model_new(PyTypeObject *type, PyObject *args, PyObject *kwds); 
 
-static PyMethodDef layer_methods[] = {
-    {"forward", (PyCFunction)forward, METH_VARARGS,
-      "Compute forward output"}, 
-    {"backward", (PyCFunction)backward, METH_VARARGS,
-      "backpropagate"}, 
-   {NULL, NULL, 0, NULL}  /* Sentinel */
+PyObject *
+add_layer(model *self, PyObject *args); 
+
+static PyMemberDef model_members[] = {
+    {"layers", T_OBJECT_EX , offsetof(model, layers), 0,
+     "Layers"},
+    {NULL}  /* Sentinel */
 };
 
-static PyMemberDef layer_members[] = {
-  {NULL}
+static PyMethodDef model_methods[] = {
+    {"add_layer", (PyCFunction)add_layer, METH_VARARGS,
+     "adds a layer to the model"},
+/*    {"forward", (PyCFunction)forward, METH_VARARGS,
+      "Compute forward output"}, */
+    {NULL, NULL, 0, NULL}  /* Sentinel */
 };
 
-static PyTypeObject layer_type = {
+static PyTypeObject model_type = {
     PyObject_HEAD_INIT(NULL)
     0,                         /*ob_size*/
-    "latte.layer",             /*tp_name*/
-    sizeof(layer),             /*tp_basicsize*/
+    "latte.model",             /*tp_name*/
+    sizeof(model),             /*tp_basicsize*/
     0,                         /*tp_itemsize*/
     0,                         /*tp_dealloc*/
     0,                         /*tp_print*/
@@ -46,15 +49,15 @@ static PyTypeObject layer_type = {
     0,                         /*tp_setattro*/
     0,                         /*tp_as_buffer*/
     Py_TPFLAGS_DEFAULT,        /*tp_flags*/
-    "Some Layer",              /* tp_doc */
+    "Base Model Object",       /* tp_doc */
     0,		                     /* tp_traverse */
     0,		                     /* tp_clear */
     0,		                     /* tp_richcompare */
     0,		                     /* tp_weaklistoffset */
     0,		                     /* tp_iter */
     0,		                     /* tp_iternext */
-    layer_methods,             /* tp_methods */
-    layer_members,                         /* tp_members */
+    model_methods,             /* tp_methods */
+    model_members,             /* tp_members */
     0,                         /* tp_getset */
     0,                         /* tp_base */
     0,                         /* tp_dict */
@@ -63,7 +66,6 @@ static PyTypeObject layer_type = {
     0,                         /* tp_dictoffset */
     0,      /* tp_init */
     0,                         /* tp_alloc */
-    layer_new,                 /* tp_new */
+    model_new,                 /* tp_new */
 };
 
-#endif

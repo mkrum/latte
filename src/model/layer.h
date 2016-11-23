@@ -1,6 +1,3 @@
-#ifndef LAYER_H
-#define LAYER_H
-
 #include <Python.h>
 #include "structmember.h"
 
@@ -8,14 +5,19 @@ typedef struct {
   PyObject_HEAD
 } layer;
 
-PyObject* layer_new(PyTypeObject *, PyObject *, PyObject *);
-PyObject* forward(layer *, PyObject*);
-PyObject* backward(layer *, PyObject*);
+PyObject *
+layer_new(PyTypeObject *type, PyObject *args, PyObject *kwds); 
+
+PyObject *
+layer_forward(layer *self, PyObject *args); 
+
+PyObject *
+layer_backward(layer *self, PyObject *args);
 
 static PyMethodDef layer_methods[] = {
-    {"forward", (PyCFunction)forward, METH_VARARGS,
+    {"forward", (PyCFunction)layer_forward, METH_VARARGS,
       "Compute forward output"}, 
-    {"backward", (PyCFunction)backward, METH_VARARGS,
+    {"backward", (PyCFunction)layer_backward, METH_VARARGS,
       "backpropagate"}, 
    {NULL, NULL, 0, NULL}  /* Sentinel */
 };
@@ -66,4 +68,4 @@ static PyTypeObject layer_type = {
     layer_new,                 /* tp_new */
 };
 
-#endif
+

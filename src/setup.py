@@ -12,7 +12,7 @@ def from_dir(d):
     ret = []
     for root, dirs, files in os.walk(d):
         for f in files:
-            if f[-3:] == 'cpp':
+            if f[-3:] == 'cpp' or f[-1] == 'c':
                 ret.append(root+'/'+f)
     return ret
 

@@ -2,7 +2,7 @@
 
 import latte
 
-latte.add_layer('data')
-latte.add_layer('debug')
+huh = latte.layer()
+wow = latte.model()
 
-print latte.forward()
+print 'import successful'
