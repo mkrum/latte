@@ -1,34 +1,36 @@
-#ifndef LAYER_H
-#define LAYER_H
-
 #include <Python.h>
 #include "structmember.h"
 
 typedef struct {
   PyObject_HEAD
-} layer;
+} data;
 
-PyObject* layer_new(PyTypeObject *, PyObject *, PyObject *);
-PyObject* forward(layer *, PyObject*);
-PyObject* backward(layer *, PyObject*);
+PyObject *
+data_new(PyTypeObject *type, PyObject *args, PyObject *kwds); 
 
-static PyMethodDef layer_methods[] = {
-    {"forward", (PyCFunction)forward, METH_VARARGS,
-      "Compute forward output"}, 
-    {"backward", (PyCFunction)backward, METH_VARARGS,
-      "backpropagate"}, 
+PyObject *
+data_init(data *self, PyObject *args, PyObject *kwds);
+
+inline PyObject *
+forward(data *self, PyObject *args);
+
+inline PyObject *
+backward(data *self, PyObject *args);
+
+static PyMethodDef data_methods[] = {
+
    {NULL, NULL, 0, NULL}  /* Sentinel */
 };
 
-static PyMemberDef layer_members[] = {
+static PyMemberDef data_members[] = {
   {NULL}
 };
 
-static PyTypeObject layer_type = {
+static PyTypeObject data_type = {
     PyObject_HEAD_INIT(NULL)
     0,                         /*ob_size*/
-    "latte.layer",             /*tp_name*/
-    sizeof(layer),             /*tp_basicsize*/
+    "layer.data",             /*tp_name*/
+    sizeof(data),             /*tp_basicsize*/
     0,                         /*tp_itemsize*/
     0,                         /*tp_dealloc*/
     0,                         /*tp_print*/
@@ -46,24 +48,24 @@ static PyTypeObject layer_type = {
     0,                         /*tp_setattro*/
     0,                         /*tp_as_buffer*/
     Py_TPFLAGS_DEFAULT,        /*tp_flags*/
-    "Some Layer",              /* tp_doc */
+    "Data Layer",              /* tp_doc */
     0,		                     /* tp_traverse */
     0,		                     /* tp_clear */
     0,		                     /* tp_richcompare */
     0,		                     /* tp_weaklistoffset */
     0,		                     /* tp_iter */
     0,		                     /* tp_iternext */
-    layer_methods,             /* tp_methods */
-    layer_members,                         /* tp_members */
+    data_methods,              /* tp_methods */
+    data_members,              /* tp_members */
     0,                         /* tp_getset */
     0,                         /* tp_base */
     0,                         /* tp_dict */
     0,                         /* tp_descr_get */
     0,                         /* tp_descr_set */
     0,                         /* tp_dictoffset */
-    0,      /* tp_init */
+    data_init,                 /* tp_init */
     0,                         /* tp_alloc */
-    layer_new,                 /* tp_new */
+    data_new,                 /* tp_new */
 };
 
-#endif
+

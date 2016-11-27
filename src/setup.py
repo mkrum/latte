@@ -1,10 +1,9 @@
 #! /usr/bin/env python2.7
 
+from setuptools import find_packages, Command
 from distutils.core import setup, Extension
 import os
 import sys
-sys.path.append('python/')
-from proto.layer import Layer
 
 comp = []
 
@@ -26,7 +25,7 @@ def read_layer_defs(d):
                 ret.append(new_layer.get_source())
     return ret
 
-files = from_dir('model') + from_dir('matrix') + from_dir('utils') + from_dir('layers')# + read_layer_defs('layer_defs')
-ext = Extension('latte', sources=files, include_dirs=['../include'], language="c++")
- 
-setup(name='latte', version='0.0.1', description='Machine Learning Network Builder', ext_modules=[ext])
+files = from_dir('model')# + from_dir('matrix') + from_dir('utils') + from_dir('layers')# + read_layer_defs('layer_defs')
+ext_make = Extension('latte.make', sources=['model/makemodule.cpp'], include_dirs=['../include'], language="c++")
+
+setup(name='latte', version='0.0.1', packages=find_packages(), description='Machine Learning Network Builder', ext_modules=[ext_make])

@@ -8,10 +8,20 @@ typedef struct {
 } model;
 
 PyObject *
-model_new(PyTypeObject *type, PyObject *args, PyObject *kwds); 
+model_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
+  model *self = NULL;
+  self->index = 0;
+  return (PyObject *)self;
+}
 
 PyObject *
-add_layer(model *self, PyObject *args); 
+add_layer(model *self, PyObject *args) {
+  PyObject *layer = NULL;
+  if (!PyArg_ParseTuple(args, "O", layer)) {
+    return NULL;
+  }
+  return (PyObject *)self;
+}
 
 static PyMemberDef model_members[] = {
     {"layers", T_OBJECT_EX , offsetof(model, layers), 0,
@@ -21,16 +31,14 @@ static PyMemberDef model_members[] = {
 
 static PyMethodDef model_methods[] = {
     {"add_layer", (PyCFunction)add_layer, METH_VARARGS,
-     "adds a layer to the model"},
-/*    {"forward", (PyCFunction)forward, METH_VARARGS,
-      "Compute forward output"}, */
-    {NULL, NULL, 0, NULL}  /* Sentinel */
+      "adds a layer to the model"},
+    {NULL}
 };
 
 static PyTypeObject model_type = {
     PyObject_HEAD_INIT(NULL)
     0,                         /*ob_size*/
-    "latte.model",             /*tp_name*/
+    "latte.make.model",             /*tp_name*/
     sizeof(model),             /*tp_basicsize*/
     0,                         /*tp_itemsize*/
     0,                         /*tp_dealloc*/
@@ -69,3 +77,26 @@ static PyTypeObject model_type = {
     model_new,                 /* tp_new */
 };
 
+
+//Methods Table
+static PyMethodDef MakeMethods[] = {
+  {NULL, NULL, 0, NULL}        /* Sentinel */
+};
+
+//constructor
+PyMODINIT_FUNC 
+initmake(void) {
+  PyObject *m;
+
+	model_type.tp_new = PyType_GenericNew;
+
+	m = Py_InitModule("make", MakeMethods);
+  if (m == NULL)
+    return;
+
+	if (PyType_Ready(&model_type) < 0)
+    return;
+
+  Py_INCREF(&model_type);
+  PyModule_AddObject(m, "model", (PyObject *)&model_type);
+}

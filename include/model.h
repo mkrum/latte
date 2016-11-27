@@ -1,6 +1,3 @@
-#ifndef MODEL_H
-#define MODEL_H
-
 #include <Python.h>
 #include "structmember.h"
 
@@ -10,11 +7,13 @@ typedef struct {
   int index;
 } model;
 
-PyObject* model_new(PyTypeObject *, PyObject *, PyObject *);
+PyObject *
+model_new(PyTypeObject *type, PyObject *args, PyObject *kwds); 
 
-PyObject* add_layer(model *, PyObject *);
+PyObject *
+add_layer(model *self, PyObject *args); 
 
-  static PyMemberDef model_members[] = {
+static PyMemberDef model_members[] = {
     {"layers", T_OBJECT_EX , offsetof(model, layers), 0,
      "Layers"},
     {NULL}  /* Sentinel */
@@ -22,16 +21,14 @@ PyObject* add_layer(model *, PyObject *);
 
 static PyMethodDef model_methods[] = {
     {"add_layer", (PyCFunction)add_layer, METH_VARARGS,
-     "adds a layer to the model"},
-/*    {"forward", (PyCFunction)forward, METH_VARARGS,
-      "Compute forward output"}, */
-    {NULL, NULL, 0, NULL}  /* Sentinel */
+      "adds a layer to the model"},
+    {NULL}
 };
 
 static PyTypeObject model_type = {
     PyObject_HEAD_INIT(NULL)
     0,                         /*ob_size*/
-    "latte.model",             /*tp_name*/
+    "latte.make.model",             /*tp_name*/
     sizeof(model),             /*tp_basicsize*/
     0,                         /*tp_itemsize*/
     0,                         /*tp_dealloc*/
@@ -70,4 +67,3 @@ static PyTypeObject model_type = {
     model_new,                 /* tp_new */
 };
 
-#endif
