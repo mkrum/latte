@@ -2,11 +2,9 @@
 
 from layer import Layer
 
-class Model:
+class PTX:
     def __init__(self, ptx_file):
         self.layers = []
-        self.input = []
-        self.output = []
         self.ptx_open(ptx_file)
         self.compose()
 
@@ -23,18 +21,19 @@ class Model:
             raise
 
         section = []
-        for i in range(len(lines)):
-            if lines[i] == '{':
+        for line in lines:
+            if '{' in line:
+                name = line[:-1]
                 section = []
-            elif lines[i] == '}':
-                self.layers.append(Layer(section))
+            elif line == '}':
+                self.layers.append(Layer(name, section))
                 section = []
             else:
-                section.append(lines[i])
+                section.append(line)
 
     def compose(self):
         '''
         Compose the layers into a model
         '''
-        for lay in layers:
-            print lay.
+        for lay in self.layers:
+            lay.debug_print()
