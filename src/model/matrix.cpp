@@ -1,17 +1,20 @@
 #include "matrix.h"
 
+//debugging, delete this
+#include <iostream>
+
 Matrix::Matrix() { }
 
 Matrix::Matrix(vector<size_t> dimensions) : shape(dimensions) {
-  size_t total_size = 0;
-  for(int i = 0; i < dimensions.size(); i++) {
-    total_size += dimensions[i];
+  size_t total_size = 1;
+  for (auto d : dimensions) {
+    total_size *= d;
   }
 
-  data = (double *)alloca(total_size * sizeof(double));
+  data = new double[total_size];
 
   //TEMP: fill with zeros
-  memset(data, 0, sizeof(double));
+  memset(data, -1.0, total_size*sizeof(double));
 }
 
 //something about this feels dirty, but I think the scope will be okay
@@ -31,22 +34,23 @@ double Matrix::get(vector<size_t> dim) {
 
 Matrix Matrix::operator[](size_t index) {
   //do bound checking at some point
-  int slice = 0;
-  int size = shape.size();
-  slice = index * pow(shape[size - 1], size - 1);
-  vector<size_t> new_shape; 
-  for(int i = 0; i < shape.size() - 1; i++) { 
+  
+  vector<size_t> new_shape(shape.size() - 1);
+  for (int i = 0; i < shape.size() - 1; i++) {
     new_shape[i] = shape[i];
   }
-  return Matrix(&data[slice], new_shape);
+
+  if (shape.size() == 1) {
+    new_shape.push_back(1);
+  }
+
+  return Matrix(&operator()(index), new_shape); //Matrix(operator()(index), shape);
 }
 
-double *Matrix::operator()(size_t index) {
+double &Matrix::operator()(size_t index) {
   //do bound checking at some point
   int slice = 0;
   int size = shape.size();
   slice = index * pow(shape[size - 1], size - 1);
-  return &data[slice];
+  return data[slice];
 }
-
-
