@@ -1,9 +1,17 @@
 #include <Python.h>
 #include "structmember.h"
+#include <string>
+#include <vector>
+
+//Debugging
+#include <iostream>
+
+using std::string;
+using std::vector;
+using std::cout;
 
 typedef struct {
   PyObject_HEAD
-  PyObject** layers;
   int index;
 } model;
 
@@ -16,16 +24,44 @@ model_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
 
 PyObject *
 add_layer(model *self, PyObject *args) {
-  PyObject *layer = NULL;
-  if (!PyArg_ParseTuple(args, "O", layer)) {
+  const char* type;
+  const char* name;
+
+  PyObject *list_args;
+
+  if (!PyArg_ParseTuple(args, "ssO!", &type, &name, &PyList_Type, &list_args)) {
     return NULL;
   }
+
+  string s_type(type);
+  string s_name(name);
+
+  vector<string> in_args;
+  int list_size = PyList_Size(list_args);
+
+  if (list_size == 0) {
+    return (PyObject *)self;
+  }
+
+  for(int i = 0; i < list_size; i++) {
+    PyObject *StrObj = PyList_GetItem(list_args, i);
+    char* line = PyString_AsString(StrObj);
+    if (line != NULL) {
+      string temp(line);
+      in_args.push_back(temp);
+    }
+  }
+ 
+  cout  << s_type << std::endl;
+
+  for (auto s : in_args) {
+    cout << s << std::endl;
+  }
+
   return (PyObject *)self;
 }
 
 static PyMemberDef model_members[] = {
-    {"layers", T_OBJECT_EX , offsetof(model, layers), 0,
-     "Layers"},
     {NULL}  /* Sentinel */
 };
 

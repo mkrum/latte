@@ -5,26 +5,14 @@ Layer class, only to hold information
 '''
 
 class Layer:
-    def __init__(self, name):
+    def __init__(self, in_type, lines):
         self.args    =  []
         self.values  =  []
-        self.source_file = "-1"
-        self.name = name
-        self.path = ""
-
-    def __init__(self, name, lines):
-        self.args    =  []
-        self.values  =  []
-        self.source_file = "-1"
-        self.name = name
+        self.input = "NULL"
+        self.output = "NULL"
+        self.type = in_type
         self.read(lines)
         self.path = ""
-
-    def __init__(self):
-        self.name = ""
-        self.args    =  []
-        self.values  =  []
-        self.source_file = "-1"
 
     def read_path(self, path):
         self.path = path
@@ -36,7 +24,7 @@ class Layer:
             raise
         self.read(lines, path)
 
-    def read(self, lines, path):
+    def read(self, lines):
         for line in lines:
             line = line.rstrip() 
             line = line.replace(" ", "")
@@ -54,26 +42,22 @@ class Layer:
             elif line[-1] == '{':
               self.name = line[:-1]
         elif len(spl) == 2:
-            if spl[0] == 'source':
-                self.source_file = spl[1]
-            self.args.append(spl[0])
-            self.values.append(spl[1])
+            spl[0] = spl[0].lstrip()
+            if spl[0] == 'in':
+                self.input = spl[1]
+            elif spl[0] == 'out':
+                self.output = spl[1]
+            elif spl[0] == 'name':
+                self.name = spl[1]
+            else:
+                self.args.append(spl[0])
+                self.values.append(spl[1])
         else:
             raise IOError("line in layer def incorrectly formatted: "+line)
 
     def debug_print(self):
         print self.name 
+        print self.input
+        print self.output
         for i in range(len(self.args)):
             print self.args[i] + ' ' +  self.values[i]
-   
-    def get_source(self):
-        if self.source_file == '-1':
-            self.debug_print()
-            if self.path != "":
-                raise ValueError("source file not defined for layer "+self.path)
-            elif self.name != "":
-                raise ValueError("soure file not defined for layer "+self.name)
-            else:
-                raise ValueError("File not properly defined")
-        else:
-            return self.source_file

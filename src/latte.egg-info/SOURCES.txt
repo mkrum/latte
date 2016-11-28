@@ -11,5 +11,6 @@ latte/proto/layer.py
 latte/proto/read.py
 latte/proto/test.py
 model/graph.cpp
+model/layer.cpp
 model/makemodule.cpp
 model/matrix.cpp

@@ -6,13 +6,11 @@ class PTX:
     def __init__(self, ptx_file):
         self.layers = []
         self.ptx_open(ptx_file)
-        self.compose()
 
     def ptx_open(self, ptx_file):
         '''
         opens and reads a ptx file
         '''
-
         try:
             lines = open(ptx_file).read().splitlines()
             lines = [ l.replace(" ", "") for l in lines ] 
@@ -35,5 +33,8 @@ class PTX:
         '''
         Compose the layers into a model
         '''
+        c_form = []
         for lay in self.layers:
-            lay.debug_print()
+            c_form.append([lay.type, lay.name, [lay.input, lay.output] + lay.values])
+
+        return c_form
