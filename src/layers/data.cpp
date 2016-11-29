@@ -5,8 +5,8 @@
 using std::cout;
 
 Data::Data(string in_name, vector<string> in_args) : name(in_name), path(in_args[2])  {
-  int width = std::atoi(in_args[3].c_str());
-  int length = std::atoi(in_args[4].c_str());
+  size_t width = std::atoi(in_args[3].c_str());
+  size_t length = std::atoi(in_args[4].c_str());
   data = Matrix({ width, length });
 
   char delim = *in_args[3].c_str();  
