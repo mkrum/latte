@@ -21,15 +21,13 @@ Matrix::Matrix(vector<size_t> dimensions) : shape(dimensions) {
 Matrix::Matrix(double *in_data, vector<size_t> in_shape) : shape(in_shape), data(in_data) { }
 
 //get single value from dim
-double Matrix::get(vector<size_t> dim) {
+double &Matrix::get(vector<size_t> dim) {
   assert(dim.size() == shape.size());
   int index = 0;
   for(int i = 0; i < shape.size(); i++) {
     index += dim[i] * pow(shape[i], i);
   }
-  
   return data[index];
-
 }
 
 Matrix Matrix::operator[](size_t index) {

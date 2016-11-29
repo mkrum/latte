@@ -10,7 +10,8 @@ latte/proto/__init__.py
 latte/proto/layer.py
 latte/proto/read.py
 latte/proto/test.py
+layers/data.cpp
+layers/debug.cpp
 model/graph.cpp
-model/layer.cpp
 model/makemodule.cpp
 model/matrix.cpp

@@ -3,6 +3,7 @@
 '''
 Layer class, only to hold information
 '''
+from latte.csv.checker import csv_check
 
 class Layer:
     def __init__(self, in_type, lines):
@@ -49,6 +50,16 @@ class Layer:
                 self.output = spl[1]
             elif spl[0] == 'name':
                 self.name = spl[1]
+            elif spl[0] == 'path':
+                width, length, sep = csv_check(spl[1])
+                self.args.append(spl[0])
+                self.values.append(spl[1])
+                self.args.append('width')
+                self.values.append(str(width))
+                self.args.append('length')
+                self.values.append(str(length))
+                self.args.append('seperator')
+                self.values.append(str(sep))
             else:
                 self.args.append(spl[0])
                 self.values.append(spl[1])

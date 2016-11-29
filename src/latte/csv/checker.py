@@ -29,7 +29,7 @@ def check_lines(path, lines):
             except:
                 raise ValueError("Non-Numeric value found in "+path+": "+l)
                 
-    return width, length
+    return width, length, sep
                     
 def open_file(path):
     try:

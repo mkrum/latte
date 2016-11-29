@@ -3,6 +3,10 @@
 #include <string>
 #include <vector>
 
+#include "layer.h"
+#include "layers/debug.h"
+#include "layers/data.h"
+
 //Debugging
 #include <iostream>
 
@@ -14,6 +18,7 @@ typedef struct {
   PyObject_HEAD
   int index;
 } model;
+
 
 PyObject *
 model_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
@@ -51,12 +56,14 @@ add_layer(model *self, PyObject *args) {
       in_args.push_back(temp);
     }
   }
- 
-  cout  << s_type << std::endl;
-
-  for (auto s : in_args) {
-    cout << s << std::endl;
+  
+  if (s_type.compare("debug") == 0) {
+    Debug new_layer = Debug(name, in_args);
   }
+  if (s_type.compare("data") == 0) {
+    Data new_layer = Data(name, in_args);
+  }
+
 
   return (PyObject *)self;
 }

@@ -1,6 +1,0 @@
-data {
-  source: layers/data.cpp
-  path: string
-  random: boolean
-}
-
