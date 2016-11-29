@@ -7,7 +7,10 @@ using std::cout;
 Data::Data(string in_name, vector<string> in_args) : name(in_name), path(in_args[2])  {
   size_t width = std::atoi(in_args[3].c_str());
   size_t length = std::atoi(in_args[4].c_str());
-  data = Matrix({ width, length });
+  vector<size_t> shape;
+  shape.push_back(width);
+  shape.push_back(length);
+  data = Matrix(shape);
 
   char delim = *in_args[3].c_str();  
   std::ifstream file(path.c_str());
