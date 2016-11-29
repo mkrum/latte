@@ -1,7 +1,30 @@
 #include "layers/data.h"
 
-Data::Data(string in_path) : path(in_path) { }
+//DEBUGGING
+#include <iostream>
+using std::cout;
 
-Matrix Data::forward(Matrix inputs) {    
+Data::Data(string in_name, vector<string> in_args) : name(in_name), path(in_args[2])  {
+  int width = std::atoi(in_args[3].c_str());
+  int length = std::atoi(in_args[4].c_str());
+  data = Matrix({ width, length });
 
+  char delim = *in_args[3].c_str();  
+  std::ifstream file(path.c_str());
+  string line;
+
+  for (int i = 0; i < length; i++) {
+    for (int j = 0; j < width; j++) {
+      std::getline(file, line, delim);
+      data[i](j) = std::atof(line.c_str());
+    }
+  }
+}
+
+Matrix &Data::forward(Matrix &inputs) {    
+  return data;
+}
+
+Matrix &Data::backward(Matrix &inputs) {    
+  return inputs;
 }
