@@ -8,7 +8,7 @@ class Graph {
     Matrix forward();
     Matrix backward( ERROR );
   private:
-
+  
 }
 
 #endif
