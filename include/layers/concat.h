@@ -11,14 +11,14 @@
 using std::string;
 using std::vector;
 
-class Debug : public Layer {
+class Concat : public Layer {
   public:
-    Debug(string, vector<string>, vector<string>,vector<string>);
+    Concat(string, vector<string>);
     Matrix &forward(Matrix&);
     Matrix &backward(Matrix&);
     string name;
-    vector<string> next;
-    vector<string> prev;
+    string next;
+    string prev;
   private:  
     
 };

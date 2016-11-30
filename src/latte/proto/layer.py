@@ -7,10 +7,11 @@ from latte.csv.checker import csv_check
 
 class Layer:
     def __init__(self, in_type, lines):
-        self.args    =  []
-        self.values  =  []
-        self.input = "NULL"
-        self.output = "NULL"
+        #NULL is a sentinel, it is removed after conversion to vector
+        self.args    =  ['NULL']
+        self.values  =  ['NULL']
+        self.input = ['NULL']
+        self.output = ['NULL']
         self.type = in_type
         self.read(lines)
         self.path = ""
@@ -44,10 +45,10 @@ class Layer:
               self.name = line[:-1]
         elif len(spl) == 2:
             spl[0] = spl[0].lstrip()
-            if spl[0] == 'in':
-                self.input = spl[1]
-            elif spl[0] == 'out':
-                self.output = spl[1]
+            if 'in_ ' in spl[0] or spl[0] == 'in':
+                self.input.append(spl[1])
+            elif 'out_' in spl[0] or spl[0] == 'out':
+                self.output.append(spl[1])
             elif spl[0] == 'name':
                 self.name = spl[1]
             elif spl[0] == 'path':

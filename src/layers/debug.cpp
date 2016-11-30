@@ -1,6 +1,6 @@
 #include "layers/debug.h"
 
-Debug::Debug(string in_name, vector<string> in_args) : name(in_name), prev(in_args[0]), next(in_args[1]) { }
+Debug::Debug(string in_name, vector<string> in, vector<string> out, vector<string> in_args) : name(in_name), prev(in), next(out) { }
 
 
 Matrix &Debug::forward(Matrix &inputs) {
