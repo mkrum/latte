@@ -13,7 +13,7 @@ Matrix::Matrix(vector<size_t> dimensions) : shape(dimensions) {
 
   data = new double[total_size];
 
-  //TEMP: fill with zeros
+  //TEMP: fill with sentinel
   memset(data, -1.0, total_size*sizeof(double));
 }
 
@@ -42,7 +42,7 @@ Matrix Matrix::operator[](size_t index) {
     new_shape.push_back(1);
   }
 
-  return Matrix(&operator()(index), new_shape); //Matrix(operator()(index), shape);
+  return Matrix(&operator()(index), new_shape);
 }
 
 double &Matrix::operator()(size_t index) {

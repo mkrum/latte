@@ -1,6 +1,7 @@
 #include "layers/debug.h"
 
-Debug::Debug(string in_name, vector<string> in_args) : name(in_name) { }
+Debug::Debug(string in_name, vector<string> in_args) : name(in_name), prev(in_args[0]), next(in_args[1]) { }
+
 
 Matrix &Debug::forward(Matrix &inputs) {
   if (inputs.shape.size() < 3) {

@@ -4,7 +4,8 @@
 #include <iostream>
 using std::cout;
 
-Data::Data(string in_name, vector<string> in_args) : name(in_name), path(in_args[2])  {
+Data::Data(string in_name, vector<string> in_args) : name(in_name), prev(in_args[0]), next(in_args[1]), path(in_args[2])  {
+
   size_t width = std::atoi(in_args[3].c_str());
   size_t length = std::atoi(in_args[4].c_str());
   vector<size_t> shape;

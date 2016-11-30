@@ -12,9 +12,8 @@ class Layer {
     virtual Matrix &forward(Matrix &) = 0;
     virtual Matrix &backward(Matrix &) = 0;
     std::string name;
-    Layer *next;
-    Layer *prev;
-  private:
+    string next;
+    string prev;
 
 };
 

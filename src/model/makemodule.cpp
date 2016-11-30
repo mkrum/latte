@@ -6,6 +6,7 @@
 #include "layer.h"
 #include "layers/debug.h"
 #include "layers/data.h"
+#include "graph.h"
 
 //Debugging
 #include <iostream>
@@ -16,6 +17,7 @@ using std::cout;
 
 typedef struct {
   PyObject_HEAD
+  Graph graph;
   int index;
 } model;
 
@@ -56,14 +58,19 @@ add_layer(model *self, PyObject *args) {
       in_args.push_back(temp);
     }
   }
-  
+  Layer* new_layer; 
   if (s_type.compare("debug") == 0) {
-    Debug new_layer = Debug(name, in_args);
+    new_layer = new Debug(name, in_args);
   }
   if (s_type.compare("data") == 0) {
-    Data new_layer = Data(name, in_args);
+    new_layer = new Data(name, in_args);
   }
 
+  if (new_layer == NULL) {
+    return NULL;
+  }
+
+  self->graph.insert(name, new_layer);
 
   return (PyObject *)self;
 }
