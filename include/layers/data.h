@@ -12,12 +12,12 @@ using std::vector;
 
 class Data : public Layer {
   public:
-    Data(string, vector<string>);
+    Data(string, vector<string>, vector<string>, vector<string>);
     Matrix &forward(Matrix&);
     Matrix &backward(Matrix&);
     string name;
-    Layer *prev;
-    Layer *next;
+    vector<string> prev;
+    vector<string> next;
   private:  
     Matrix data;
     string path;

@@ -1,10 +1,18 @@
-#include <iostream>
-#include <matrix.h>
-#include <layer.h>
+#include "graph.h"
 
-using namespace std;
+Graph::Graph() { }
 
-int main(){
+void Graph::insert(string in_name, Layer * new_layer) {
+  directory[in_name] = new_layer;
+}
 
-	return 0;
+void Graph::set_out(string in_out) { 
+     
+}
+
+Graph::~Graph() {
+  std::map<string, Layer *>::iterator it;
+  for (it = directory.begin(); it != directory.end(); it++) {
+    delete it->second;  
+  }
 }

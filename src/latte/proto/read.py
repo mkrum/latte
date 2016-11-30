@@ -35,6 +35,6 @@ class PTX:
         '''
         c_form = []
         for lay in self.layers:
-            c_form.append([lay.type, lay.name, [lay.input, lay.output] + lay.values])
+            c_form.append([lay.type, lay.name, lay.input, lay.output, lay.values])
 
         return c_form

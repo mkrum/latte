@@ -6,6 +6,7 @@
 #include "layer.h"
 #include "layers/debug.h"
 #include "layers/data.h"
+#include "graph.h"
 
 //Debugging
 #include <iostream>
@@ -16,6 +17,7 @@ using std::cout;
 
 typedef struct {
   PyObject_HEAD
+  Graph graph;
   int index;
 } model;
 
@@ -27,43 +29,62 @@ model_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
   return (PyObject *)self;
 }
 
+vector<string> read_PyList(PyObject *list) {
+
+  vector<string> args;
+  int list_size = PyList_Size(list);
+  cout << list_size << std::endl;
+  if (!PyList_CheckExact(list)) {
+    return args;
+  }
+
+  for(int i = 0; i < list_size; i++) {
+    PyObject *StrObj = PyList_GetItem(list, i);
+    char* line = PyString_AsString(StrObj);
+    if (line != NULL) {
+      string temp(line);
+      args.push_back(temp);
+    }
+  }
+
+  // You can't use the list after this
+  Py_DECREF(list);
+  return args;
+}
+
 PyObject *
 add_layer(model *self, PyObject *args) {
   const char* type;
   const char* name;
 
   PyObject *list_args;
+  PyObject *list_in;
+  PyObject *list_out;
 
-  if (!PyArg_ParseTuple(args, "ssO!", &type, &name, &PyList_Type, &list_args)) {
+  if (!PyArg_ParseTuple(args, "ssO!O!O!", &type, &name, &PyList_Type, &list_in, &PyList_Type, &list_out, &PyList_Type, &list_args)) {
     return NULL;
   }
 
   string s_type(type);
   string s_name(name);
 
-  vector<string> in_args;
-  int list_size = PyList_Size(list_args);
+  vector<string> in_args = read_PyList(list_args);
+  vector<string> inputs = read_PyList(list_in);
+  vector<string> outputs = read_PyList(list_out);
 
-  if (list_size == 0) {
-    return (PyObject *)self;
-  }
-
-  for(int i = 0; i < list_size; i++) {
-    PyObject *StrObj = PyList_GetItem(list_args, i);
-    char* line = PyString_AsString(StrObj);
-    if (line != NULL) {
-      string temp(line);
-      in_args.push_back(temp);
-    }
-  }
-  
+  Layer* new_layer; 
   if (s_type.compare("debug") == 0) {
-    Debug new_layer = Debug(name, in_args);
+    new_layer = new Debug(name, inputs, outputs, in_args);
   }
   if (s_type.compare("data") == 0) {
-    Data new_layer = Data(name, in_args);
+    new_layer = new Data(name, inputs, outputs, in_args);
   }
 
+  if (new_layer == NULL) {
+    return NULL;
+  }
+
+  //self->graph.insert(name, new_layer);
 
   return (PyObject *)self;
 }
