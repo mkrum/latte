@@ -20,6 +20,8 @@ class Graph {
     Matrix backward();
     void set_out(string);
   private:
+    vector<vector<Layer * > > curr_path;
+    vector<vector<Layer *> > find_path(string);
     std::map<string, Layer *> directory;
     std::map<string, vector<Layer *> > paths;  
     string output;
