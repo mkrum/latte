@@ -26,6 +26,6 @@ def read_layer_defs(d):
     return ret
 
 files = from_dir('model') + from_dir('layers')
-ext_make = Extension('latte.make', sources=files, include_dirs=['../include'], extra_compile_args=['-std=c++11'], language="c++")
+ext_make = Extension('latte.make', sources=files, include_dirs=['../include'], extra_compile_args=['-std=c++11', '-stdlib=libc++', '-mmacosx-version-min=10.7'], language="c++")
 
 setup(name='latte', version='0.0.1', packages=find_packages(), description='Machine Learning Network Builder', ext_modules=[ext_make])

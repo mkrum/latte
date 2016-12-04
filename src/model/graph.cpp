@@ -1,30 +1,31 @@
 #include "graph.h"
 
-Graph::Graph() { }
+Graph::Graph() : directory(), paths() { 
 
-void Graph::insert(string in_name, Layer *new_layer) {
-  directory.insert(std::pair<string, Layer*> (in_name, new_layer));
+}
+
+void Graph::insert(string s_type, string s_name, vector<string> inputs, vector<string> outputs, vector<string> in_args) {
+
+  Layer * new_layer = nullptr;
+  if (s_type.compare("debug") == 0) {
+    new_layer = new Debug(s_name, inputs, outputs, in_args);
+  }
+  else if (s_type.compare("data") == 0) {
+    new_layer = new Data(s_name, inputs, outputs, in_args);
+  }
+  
+  directory[new_layer->name] = new_layer;
 }
 
 // FIND PATH FUCTION HERE
-vector<vector<Layer *> > Graph::find_path(string in_path) {
-  vector< vector<Layer *> > path;
+vector<vector<std::shared_ptr<Layer> > > Graph::find_path(string in_path) {
+  vector< vector<std::shared_ptr<Layer> > > path;
 
   return path;
 }
 
 Matrix Graph::forward() {
-
-  if (curr_path.size() < 1) {
-    return Matrix();
-  }
-
-  Matrix temp;
-  for(int i = 0; i < curr_path.size(); i++) {
-//    temp = curr_path[i].forward(temp);
-  }
-  return temp;
-
+  return Matrix();
 }
 
 void Graph::set_out(string in_out) { 
@@ -35,9 +36,3 @@ void Graph::set_out(string in_out) {
   }
 }
 
-Graph::~Graph() {
-  std::map<string, Layer *>::iterator it;
-  for (it = directory.begin(); it != directory.end(); it++) {
-    delete it->second;  
-  }
-}

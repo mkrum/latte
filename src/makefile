@@ -3,10 +3,10 @@ FLAGS=-std=c++11
 main: build install check
 
 build:
-	python setup.py build
+	CC=g++ python setup.py build
 
 install:
-	python setup.py install 
+	CC=g++ python setup.py install 
 
 check:
 	python ../example/test.py
