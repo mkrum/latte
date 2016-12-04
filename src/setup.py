@@ -30,10 +30,10 @@ def read_layer_defs(d):
 
 files = from_dir('model') + from_dir('layers')
 
-compile_args = ['-std=c++11', '-stdlib=libc++']
+compile_args = ['-std=c++11']
 
 if platform.system() != 'Linux':
-    compile_args += '-mmacosx-version-min=10.7'
+    compile_args += ['-mmacosx-version-min=10.7', '-stdlib=libc++']
 
 ext_make = Extension('latte.make', sources=files, include_dirs=['../include'], extra_compile_args=compile_args, language="c++")
 
