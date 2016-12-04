@@ -15,11 +15,14 @@ class Matrix {
     Matrix(vector<size_t>);
     Matrix(double *, vector<size_t>);
     double &get(vector<size_t>);
+    void set(size_t, double);
     Matrix operator[](size_t);
     double &operator()(size_t);
+    Matrix operator+(Matrix);
+    Matrix operator*(Matrix);
     vector<size_t> shape;
   private:
-    double *data;     
+    double *data;
 };
 
 
