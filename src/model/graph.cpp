@@ -19,9 +19,12 @@ void Graph::insert(string s_type, string s_name, vector<string> inputs, vector<s
 
 // FIND PATH FUCTION HERE
 vector<vector<std::shared_ptr<Layer> > > Graph::find_path(string in_path) {
-  vector< vector<std::shared_ptr<Layer> > > path;
+	Layer * curr = directory.find[in_path];
+	std::vector<std::string> previous = curr.prev;
 
-  return path;
+	vector< vector<std::shared_ptr<Layer> > > path;
+	return path;
+
 }
 
 Matrix Graph::forward() {
