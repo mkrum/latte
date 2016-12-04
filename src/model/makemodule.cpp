@@ -2,6 +2,7 @@
 #include "structmember.h"
 #include <string>
 #include <vector>
+#include <memory>
 
 #include "layer.h"
 #include "layers/debug.h"
@@ -33,7 +34,6 @@ vector<string> read_PyList(PyObject *list) {
 
   vector<string> args;
   int list_size = PyList_Size(list);
-  cout << list_size << std::endl;
   if (!PyList_CheckExact(list)) {
     return args;
   }
@@ -72,19 +72,15 @@ add_layer(model *self, PyObject *args) {
   vector<string> inputs = read_PyList(list_in);
   vector<string> outputs = read_PyList(list_out);
 
-  Layer* new_layer; 
-  if (s_type.compare("debug") == 0) {
-    new_layer = new Debug(name, inputs, outputs, in_args);
-  }
-  if (s_type.compare("data") == 0) {
-    new_layer = new Data(name, inputs, outputs, in_args);
-  }
+  self->graph.insert(s_type, s_name, inputs, outputs, in_args);
 
-  if (new_layer == NULL) {
-    return NULL;
-  }
+  return (PyObject *)self;
+}
 
-  //self->graph.insert(name, new_layer);
+PyObject *
+run(model *self, PyObject *args) {
+
+  self->graph.forward();
 
   return (PyObject *)self;
 }
@@ -96,6 +92,8 @@ static PyMemberDef model_members[] = {
 static PyMethodDef model_methods[] = {
     {"add_layer", (PyCFunction)add_layer, METH_VARARGS,
       "adds a layer to the model"},
+    {"run", (PyCFunction)run, METH_VARARGS,
+      "run the model"},
     {NULL}
 };
 
