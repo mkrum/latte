@@ -1,2 +1,5 @@
 script: cd src && make
 
+addons:
+    packages:
+    - g++-5
