@@ -79,9 +79,15 @@ add_layer(model *self, PyObject *args) {
 
 PyObject *
 run(model *self, PyObject *args) {
+  const char* output;
 
+  if (!PyArg_ParseTuple(args, "s", &output)) {
+    return NULL;
+  }
+
+  string s_output(output);
+  self->graph.find_path(s_output);
   self->graph.forward();
-
   return (PyObject *)self;
 }
 

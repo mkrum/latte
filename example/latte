@@ -2,8 +2,10 @@
 
 from latte.proto.read import PTX
 from latte.make import model
+import sys
 
-f = PTX('graph.ptx')
+
+f = PTX(sys.argv[1])
 layers = f.compose()
 
 ml = model()

@@ -1,10 +1,4 @@
 #include "graph.h"
-#include <set> // not sure if added in graph.h or not
-
-
-Graph::Graph() : directory(), paths() { 
-
-}
 
 void Graph::insert(string s_type, string s_name, vector<string> inputs, vector<string> outputs, vector<string> in_args) {
 
@@ -19,44 +13,54 @@ void Graph::insert(string s_type, string s_name, vector<string> inputs, vector<s
   directory[new_layer->name] = new_layer;
 }
 
-// FIND PATH FUCTION HERE
-vector<vector<std::shared_ptr<Layer> > > Graph::find_path(string in_path) {
-	Layer * curr = directory.find[in_path]; 	// finds the current layer in dir - currently getting error
-	vector<string> previous = curr->prev; // finds what the layer depends on
-	vector<string> curr_string; 		// transforms the in_path into a vector string
-	curr_string.push_back(in_path);
+void Graph::find_path(string in_path) {
+   
+  std::stack<string> top_sort;
+  std::stack<string> frontier;
 
-	set<string> visited;
+  frontier.push(in_path);
 
-	vector< vector<std::shared_ptr<Layer> > > path; // the path that will be returned
-	path.push_back(curr_string); 			// pushes back the root node first
-	visited.insert(curr_string);
+  while(!frontier.empty()) {
+    string curr = frontier.top();
+    frontier.pop();
+    vector<string> next = directory[curr]->prev;
+    for(int i = 0; i < next.size(); i++) {
+      if(next[i].compare("NULL") != 0) {
+        frontier.push(next[i]);
+      }
+    }
+    top_sort.push(curr);
+  }
+  
+  curr_path = top_sort;
 
-	path.push_back(previous); 			// pushes back the next layers (dependencies)
-
-	/*
-	for(it = 0; it < previous.size(); it++){
-		find_path_r(previous[i], path, visited); // recursively call find path
-		visited.insert(curr_string);
-	}
-	*/
-
-	return path;
-
-}
-
-void Graph::find_path_r(string in_path, vector<vector<std::shared_ptr<Layer> > > path, set<string> visited) {
 }
 
 Matrix Graph::forward() {
-  return Matrix();
+  std::stack<string> path_cpy = curr_path;
+
+  std::stack<Matrix> buffer;
+  Layer *curr_layer = nullptr;
+  string curr;
+
+  while(!path_cpy.empty()) {
+    curr = path_cpy.top();
+    path_cpy.pop();
+    curr_layer = directory[curr];
+    Matrix out;
+   
+    if (curr_layer->prev.size() == 1) {
+      out = curr_layer->forward(out);
+    } else if (curr_layer->prev.size() == 2) {
+      out = buffer.top();
+      buffer.pop();
+      out = curr_layer->forward(out);
+    }
+    buffer.push(out);
+
+  }
+
+  return buffer.top();
 }
 
-void Graph::set_out(string in_out) { 
-  if(paths.find(in_out) != paths.end()) {
- //   curr_path = paths[in_out];
-  } else  {
-  //  paths[in_out] = find_path(in_out);
-  }
-}
 

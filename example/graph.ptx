@@ -1,0 +1,53 @@
+
+debug {
+	name : A
+}
+
+debug {
+	in : A
+	name : B
+}
+
+debug {
+	name : C
+}
+
+debug {
+	in : C
+	name : E
+}
+
+debug {
+	in : G
+	in : E
+	name : H
+}
+
+debug {
+	in : D
+	name : F
+}
+
+debug {
+	name : D
+}
+
+debug {
+	name : G
+}
+
+debug {
+	in : G
+	name : I
+}
+
+debug {
+	in : I
+	in : H
+	name : J
+}
+
+debug {
+	in : J
+	name : K
+} 

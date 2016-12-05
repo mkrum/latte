@@ -6,7 +6,8 @@
 #include <string>
 #include <vector>
 #include <memory>
-  
+#include <stack>
+
 #include "matrix.h"
 #include "layer.h"
 #include "layers/data.h"
@@ -20,13 +21,10 @@ class Graph {
     void insert(string, string, vector<string>, vector<string>, vector<string>);
     Matrix forward();
     Matrix backward();
-    void set_out(string);
+    void find_path(string);
   private:
-    vector<vector<std::shared_ptr<Layer> > > curr_path;
-    vector<vector<std::shared_ptr<Layer> > > find_path(string);
+    std::stack<string> curr_path;
     std::unordered_map<string, Layer* > directory;
-    std::unordered_map<string, vector<std::shared_ptr<Layer> > > paths;  
-    void find_path(string, vector<vector<std::shared_ptr<Layer> > >, vector<string>);
     string output;
 };
 
