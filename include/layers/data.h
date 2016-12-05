@@ -15,9 +15,6 @@ class Data : public Layer {
     Data(string, vector<string>, vector<string>, vector<string>);
     Matrix &forward(Matrix&);
     Matrix &backward(Matrix&);
-    string name;
-    vector<string> prev;
-    vector<string> next;
   private:  
     Matrix data;
     string path;
