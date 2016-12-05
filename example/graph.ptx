@@ -1,4 +1,3 @@
-
 debug {
 	name : A
 }
@@ -14,40 +13,41 @@ debug {
 
 debug {
 	in : C
-	name : E
-}
-
-debug {
-	in : G
-	in : E
-	name : H
-}
-
-debug {
-	in : D
-	name : F
-}
-
-debug {
+	in : B
 	name : D
 }
 
 debug {
+	name : E
+}
+
+debug {
+	in : E
+	name : F
+}
+
+debug {
+	in : F
+	in : D
 	name : G
 }
 
 debug {
-	in : G
+	name: H
+}
+
+debug {
+	in : H
 	name : I
 }
 
 debug {
 	in : I
-	in : H
-	name : J
+	in : G
+	name: K
 }
 
 debug {
-	in : J
-	name : K
-} 
+	in : K
+	name : J
+}
