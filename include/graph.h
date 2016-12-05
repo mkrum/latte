@@ -26,6 +26,7 @@ class Graph {
     vector<vector<std::shared_ptr<Layer> > > find_path(string);
     std::unordered_map<string, Layer* > directory;
     std::unordered_map<string, vector<std::shared_ptr<Layer> > > paths;  
+    void find_path(string, vector<vector<std::shared_ptr<Layer> > >, vector<string>);
     string output;
 };
 
