@@ -20,6 +20,7 @@ class Matrix {
     double &operator()(size_t);
     Matrix operator+(Matrix);
     Matrix operator*(Matrix);
+    Matrix cross(Matrix);
     vector<size_t> shape;
   private:
     double *data;

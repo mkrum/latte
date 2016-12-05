@@ -97,3 +97,19 @@ Matrix Matrix::operator*(Matrix other) {
 
   return result;
 }
+
+
+Matrix Matrix::cross(Matrix other) {
+  assert (shape.size() == 1);
+  assert (shape[0] == 3);
+  assert (other.shape.size() == 1);
+  assert (other.shape[0] == 3);
+
+  Matrix result(data, shape);
+
+  result.set(0, data[1]*other.data[2] - data[2]*other.data[1]);
+  result.set(1, data[0]*other.data[2] - data[2]*other.data[0]);
+  result.set(2, data[0]*other.data[1] - data[1]*other.data[0]);
+
+  return result;
+}
