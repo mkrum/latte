@@ -7,14 +7,10 @@ build:
 	CC=g++ python setup.py build
 
 install:
-<<<<<<< HEAD
-	python setup.py install --user
-=======
 	CC=g++ python setup.py install 
 
 user:
 	CC=g++ python setup.py install --user
->>>>>>> master
 
 check:
 	python ../example/test.py
