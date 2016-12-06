@@ -1,5 +1,5 @@
-#ifndef DATA_H
-#define DATA_H
+#ifndef ADD_CONSTANT_H
+#define ADD_CONSTANT_H
 
 #include "../layer.h"
 #include "../matrix.h"
@@ -11,17 +11,14 @@
 using std::string;
 using std::vector;
 
-class Data : public Layer {
+class Add_Constant : public Layer {
   public:
-    Data(string, vector<string>, vector<string>, vector<string>);
+    Add_Constant(string, vector<string>, vector<string>, vector<string>);
     Matrix &forward(Matrix&);
     Matrix &backward(Matrix&);
   private:  
     Matrix data;
-    string path;
-    size_t width;
-    size_t length;
-    char delim;
+    int constant; 
 };
 
 #endif

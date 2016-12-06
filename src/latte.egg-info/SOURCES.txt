@@ -10,6 +10,7 @@ latte/proto/__init__.py
 latte/proto/layer.py
 latte/proto/read.py
 latte/proto/test.py
+layers/add_constant.cpp
 layers/data.cpp
 layers/debug.cpp
 model/graph.cpp
