@@ -5,12 +5,13 @@ Matrix::Matrix() { }
 
 
 Matrix::Matrix(vector<size_t> dimensions) : shape(dimensions) {
-  size_t total_size = 1;
+  total_size = 1;
   for (auto d : dimensions) {
     total_size *= d;
   }
 
   data = new double[total_size];
+  to_delete = true;
 
   //fill with sentinel values
   memset(data, -1.0, total_size*sizeof(double));
@@ -18,7 +19,20 @@ Matrix::Matrix(vector<size_t> dimensions) : shape(dimensions) {
 
 
 //something about this feels dirty, but I think the scope will be okay
-Matrix::Matrix(double *in_data, vector<size_t> in_shape) : shape(in_shape), data(in_data) { }
+Matrix::Matrix(double *in_data, vector<size_t> in_shape) : shape(in_shape), data(in_data) {
+  total_size = 1;
+  for (size_t i = 0; i < shape.size(); i++) {
+    total_size *= shape[i];
+  }
+  to_delete = false;
+}
+
+
+Matrix::~Matrix() {
+  if (to_delete) {
+    delete [] data;
+  }
+}
 
 
 //get single value from dim
@@ -65,10 +79,8 @@ double &Matrix::operator()(size_t index) {
 Matrix Matrix::operator+(Matrix other) {
   assert (shape.size() == other.shape.size());
 
-  size_t total_size = 1;
   for (size_t i = 0; i < shape.size(); i++) {
     assert(shape[i] == other.shape[i]);
-    total_size *= shape[i];
   }
 
   Matrix result(data, shape);
@@ -81,19 +93,39 @@ Matrix Matrix::operator+(Matrix other) {
 }
 
 
+Matrix Matrix::operator+(double constant) {
+  Matrix result(data, shape);
+
+  for(size_t i = 0; i < total_size; i++) {
+    result.data[i] = data[i] + constant;
+  }
+
+  return result;
+}
+
+
 Matrix Matrix::operator*(Matrix other) {
   assert (shape.size() == other.shape.size());
 
-  size_t total_size = 1;
   for (size_t i = 0; i < shape.size(); i++) {
     assert(shape[i] == other.shape[i]);
-    total_size *= shape[i];
   }
 
   Matrix result(data, shape);
 
   for (size_t j = 0; j < total_size; j++) {
     result.set(j, data[j] * other.data[j]);
+  }
+
+  return result;
+}
+
+
+Matrix Matrix::operator*(double constant) {
+  Matrix result(data, shape);
+
+  for(size_t i = 0; i < total_size; i++) {
+    result.data[i] = data[i] * constant;
   }
 
   return result;

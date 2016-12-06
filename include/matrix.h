@@ -14,16 +14,21 @@ class Matrix {
     Matrix();
     Matrix(vector<size_t>);
     Matrix(double *, vector<size_t>);
+    ~Matrix();
     double &get(vector<size_t>);
     void set(size_t, double);
     Matrix operator[](size_t);
     double &operator()(size_t);
     Matrix operator+(Matrix);
+    Matrix operator+(double);
     Matrix operator*(Matrix);
+    Matrix operator*(double);
     Matrix cross(Matrix);
     vector<size_t> shape;
     double *data;
-//  private:
+  private:
+    size_t total_size;
+    bool to_delete;
 //    double *data;
 };
 
