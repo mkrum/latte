@@ -9,8 +9,8 @@ debug {
 	name : print
 }
 
-output {
-	in : print
+add_constant {
 	name : final
-	target : out.txt
+	in : print
+	constant : 1
 }

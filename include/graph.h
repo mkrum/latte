@@ -13,6 +13,7 @@
 #include "layers/data.h"
 #include "layers/debug.h"
 #include "layers/output.h"
+#include "layers/add_constant.h"
 
 using std::string;
 

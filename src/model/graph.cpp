@@ -12,8 +12,10 @@ void Graph::insert(string s_type, string s_name, vector<string> inputs, vector<s
     new_layer = new Data(s_name, inputs, outputs, in_args);
   } else if (s_type.compare("output") == 0) {
     new_layer = new Output(s_name, inputs, outputs, in_args);
+  } else if (s_type.compare("add_constant") == 0) {
+    new_layer = new Add_Constant(s_name, inputs, outputs, in_args);
   }
-
+  
   directory.insert(std::make_pair(new_layer->name, new_layer));
 
 }
