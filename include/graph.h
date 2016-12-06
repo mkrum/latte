@@ -2,26 +2,30 @@
 #define GRAPH_H
 
 #include <iostream>
-#include <map>
+#include <unordered_map>
 #include <string>
 #include <vector>
+#include <memory>
   
 #include "matrix.h"
 #include "layer.h"
+#include "layers/data.h"
+#include "layers/debug.h"
 
 using std::string;
 
 class Graph {
   public:
     Graph();
-    ~Graph();
-    void insert(string, Layer *);
+    void insert(string, string, vector<string>, vector<string>, vector<string>);
     Matrix forward();
     Matrix backward();
     void set_out(string);
   private:
-    std::map<string, Layer *> directory;
-    std::map<string, vector<Layer *> > paths;  
+    vector<vector<std::shared_ptr<Layer> > > curr_path;
+    vector<vector<std::shared_ptr<Layer> > > find_path(string);
+    std::unordered_map<string, Layer* > directory;
+    std::unordered_map<string, vector<std::shared_ptr<Layer> > > paths;  
     string output;
 };
 

@@ -1,12 +1,16 @@
 LINK=-I ../include
 FLAGS=-std=c++11
-main: build install check
+
+main: build user check
 
 build:
-	python setup.py build
+	CC=g++ python setup.py build
 
 install:
-	python setup.py install --user
+	CC=g++ python setup.py install 
+
+user:
+	CC=g++ python setup.py install --user
 
 check:
 	python ../example/test.py

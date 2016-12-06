@@ -5,6 +5,7 @@
 #include <math.h>
 #include <assert.h>
 #include <string>
+#include <cstring>
 
 using std::vector;
 
