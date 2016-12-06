@@ -8,3 +8,9 @@ debug {
 	in : data
 	name : print
 }
+
+output {
+	in : print
+	name : final
+	target : out.txt
+}

@@ -20,7 +20,7 @@ class Output : public Layer {
     vector<string> prev;
     vector<string> next;
   private:  
-
+    string path;
 };
 
 #endif

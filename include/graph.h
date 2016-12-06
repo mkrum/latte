@@ -12,6 +12,7 @@
 #include "layer.h"
 #include "layers/data.h"
 #include "layers/debug.h"
+#include "layers/output.h"
 
 using std::string;
 
