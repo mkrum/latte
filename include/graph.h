@@ -18,6 +18,7 @@ using std::string;
 class Graph {
   public:
     Graph();
+    ~Graph();
     void insert(string, string, vector<string>, vector<string>, vector<string>);
     Matrix forward();
     Matrix backward();
