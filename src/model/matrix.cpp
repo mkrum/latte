@@ -3,7 +3,6 @@
 
 Matrix::Matrix() { }
 
-
 Matrix::Matrix(vector<size_t> dimensions) : shape(dimensions) {
   size_t total_size = 1;
   for (auto d : dimensions) {

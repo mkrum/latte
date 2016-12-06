@@ -69,8 +69,13 @@ Matrix Graph::forward() {
 }
 
 Graph::~Graph() {
+  vector<string> names;
   for(std::unordered_map<string, Layer *>::iterator it = directory.begin();
     it != directory.end(); ++it) {
-      delete it->second;
+     names.push_back(it->first);
+  }
+
+  for(int i = 0; i < names.size(); i++) {
+    delete directory[names[i]];
   }
 }

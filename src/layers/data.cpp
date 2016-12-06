@@ -19,20 +19,17 @@ Matrix &Data::forward(Matrix &inputs) {
   data = Matrix(shape);
 
   std::ifstream file_(path.c_str());
-  if (!file_.good()) {
-    std::cout << "shit";
-  }
   string line;
 
-  for (int i = 0; i < length; i++) {
-    for (int j = 0; j < width - 1; j++) {
+  for (size_t i = 0; i < length; i++) {
+    for (size_t j = 0; j < width - 1; j++) {
       std::getline(file_, line, delim);
-      data[i](j) = std::atof(line.c_str());
-      std::cout << data[i](j) << " ";
+      data.get({ i , j }) = std::atof(line.c_str());
+      std::cout << std::atof(line.c_str()) << " ";
     }
     std::getline(file_, line);
-    data[i](width) = std::atof(line.c_str());
-    std::cout << data[i](width) << " ";
+    data.get({i, width}) = std::atof(line.c_str());
+    std::cout << std::atof(line.c_str()) << " ";
     std::cout << std::endl;
   }
 
