@@ -21,11 +21,14 @@ Data::Data(string in_name, vector<string> in, vector<string> out, vector<string>
   string line;
 
   for (int i = 0; i < length; i++) {
-    for (int j = 0; j < width; j++) {
+    for (int j = 0; j < width - 1; j++) {
       std::getline(file, line, delim);
       data[i](j) = std::atof(line.c_str());
       std::cout << data[i](j) << " ";
     }
+    std::getline(file, line);
+    data[i](width) = std::atof(line.c_str());
+    std::cout << data[i](width) << " ";
     std::cout << std::endl;
   }
 }
