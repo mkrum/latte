@@ -1,6 +1,9 @@
 #include "matrix.h"
 #include <cstring>
 
+#include <iostream>
+
+
 Matrix::Matrix() { }
 
 
@@ -39,7 +42,7 @@ Matrix::~Matrix() {
 double &Matrix::get(vector<size_t> dim) {
   assert(dim.size() == shape.size());
   int index = 0;
-  for(int i = 0; i < shape.size(); i++) {
+  for(size_t i = 0; i < shape.size(); i++) {
     index += dim[i] * pow(shape[i], i);
   }
   return data[index];
@@ -83,6 +86,9 @@ Matrix Matrix::operator+(Matrix other) {
     assert(shape[i] == other.shape[i]);
   }
 
+  std::cout << shape[0] << " " << shape[1] << std::endl << other.shape[0] << " " << other.shape[1] << 
+  std::endl;
+
   Matrix result(data, shape);
 
   for (size_t j = 0; j < total_size; j++) {
@@ -105,16 +111,21 @@ Matrix Matrix::operator+(double constant) {
 
 
 Matrix Matrix::operator*(Matrix other) {
-  assert (shape.size() == other.shape.size());
+  assert (shape.size() == 2);
+  assert (other.shape.size() == 2);
+  assert (shape[1] == other.shape[0]);
 
-  for (size_t i = 0; i < shape.size(); i++) {
-    assert(shape[i] == other.shape[i]);
-  }
+  vector<size_t> new_shape;
+  new_shape.push_back(shape[0]);
+  new_shape.push_back(other.shape[1]);
+  Matrix result(new_shape);
 
-  Matrix result(data, shape);
-
-  for (size_t j = 0; j < total_size; j++) {
-    result.set(j, data[j] * other.data[j]);
+  for (size_t i = 0; i < shape[0]*other.shape[1]; i++) {
+    double entry = 0;
+    for (size_t j = 0; j < shape[1]; j++) {
+      entry += data[(i/other.shape[1])*shape[1] + j]*other.data[i%other.shape[1] + other.shape[1]*j];
+    }
+    result.set(i, entry);
   }
 
   return result;
