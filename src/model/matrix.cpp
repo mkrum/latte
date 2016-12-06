@@ -1,16 +1,20 @@
 #include "matrix.h"
 #include <cstring>
 
+#include <iostream>
+
+
 Matrix::Matrix() { }
 
 
 Matrix::Matrix(vector<size_t> dimensions) : shape(dimensions) {
-  size_t total_size = 1;
+  total_size = 1;
   for (auto d : dimensions) {
     total_size *= d;
   }
 
   data = new double[total_size];
+  to_delete = true;
 
   //fill with sentinel values
   memset(data, -1.0, total_size*sizeof(double));
@@ -18,14 +22,27 @@ Matrix::Matrix(vector<size_t> dimensions) : shape(dimensions) {
 
 
 //something about this feels dirty, but I think the scope will be okay
-Matrix::Matrix(double *in_data, vector<size_t> in_shape) : shape(in_shape), data(in_data) { }
+Matrix::Matrix(double *in_data, vector<size_t> in_shape) : shape(in_shape), data(in_data) {
+  total_size = 1;
+  for (size_t i = 0; i < shape.size(); i++) {
+    total_size *= shape[i];
+  }
+  to_delete = false;
+}
+
+
+Matrix::~Matrix() {
+  if (to_delete) {
+    delete [] data;
+  }
+}
 
 
 //get single value from dim
 double &Matrix::get(vector<size_t> dim) {
   assert(dim.size() == shape.size());
   int index = 0;
-  for(int i = 0; i < shape.size(); i++) {
+  for(size_t i = 0; i < shape.size(); i++) {
     index += dim[i] * pow(shape[i], i);
   }
   return data[index];
@@ -65,11 +82,12 @@ double &Matrix::operator()(size_t index) {
 Matrix Matrix::operator+(Matrix other) {
   assert (shape.size() == other.shape.size());
 
-  size_t total_size = 1;
   for (size_t i = 0; i < shape.size(); i++) {
     assert(shape[i] == other.shape[i]);
-    total_size *= shape[i];
   }
+
+  std::cout << shape[0] << " " << shape[1] << std::endl << other.shape[0] << " " << other.shape[1] << 
+  std::endl;
 
   Matrix result(data, shape);
 
@@ -81,19 +99,44 @@ Matrix Matrix::operator+(Matrix other) {
 }
 
 
-Matrix Matrix::operator*(Matrix other) {
-  assert (shape.size() == other.shape.size());
-
-  size_t total_size = 1;
-  for (size_t i = 0; i < shape.size(); i++) {
-    assert(shape[i] == other.shape[i]);
-    total_size *= shape[i];
-  }
-
+Matrix Matrix::operator+(double constant) {
   Matrix result(data, shape);
 
-  for (size_t j = 0; j < total_size; j++) {
-    result.set(j, data[j] * other.data[j]);
+  for(size_t i = 0; i < total_size; i++) {
+    result.data[i] = data[i] + constant;
+  }
+
+  return result;
+}
+
+
+Matrix Matrix::operator*(Matrix other) {
+  assert (shape.size() == 2);
+  assert (other.shape.size() == 2);
+  assert (shape[1] == other.shape[0]);
+
+  vector<size_t> new_shape;
+  new_shape.push_back(shape[0]);
+  new_shape.push_back(other.shape[1]);
+  Matrix result(new_shape);
+
+  for (size_t i = 0; i < shape[0]*other.shape[1]; i++) {
+    double entry = 0;
+    for (size_t j = 0; j < shape[1]; j++) {
+      entry += data[(i/other.shape[1])*shape[1] + j]*other.data[i%other.shape[1] + other.shape[1]*j];
+    }
+    result.set(i, entry);
+  }
+
+  return result;
+}
+
+
+Matrix Matrix::operator*(double constant) {
+  Matrix result(data, shape);
+
+  for(size_t i = 0; i < total_size; i++) {
+    result.data[i] = data[i] * constant;
   }
 
   return result;
