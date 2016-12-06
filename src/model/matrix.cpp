@@ -99,13 +99,12 @@ Matrix Matrix::operator+(Matrix other) {
 
 
 Matrix Matrix::operator+(double constant) {
-  Matrix result(data, shape);
 
   for(size_t i = 0; i < total_size; i++) {
-    result.data[i] = data[i] + constant;
+    data[i] = data[i] + constant;
   }
 
-  return result;
+  return *this;
 }
 
 
