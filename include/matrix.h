@@ -13,6 +13,7 @@ class Matrix {
 
   public:
     Matrix();
+    Matrix(const Matrix &);
     Matrix(vector<size_t>);
     Matrix(double *, vector<size_t>);
     ~Matrix();
@@ -24,6 +25,7 @@ class Matrix {
     Matrix operator+(double);
     Matrix operator*(Matrix);
     Matrix operator*(double);
+    Matrix &operator=(const Matrix &);
     Matrix cross(Matrix);
     vector<size_t> shape;
     double *data;

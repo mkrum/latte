@@ -4,15 +4,29 @@
 #include <iostream>
 
 
-Matrix::Matrix() { }
+Matrix::Matrix() : to_delete(false) { }
+
+Matrix::Matrix(const Matrix &obj) {
+  to_delete = false;
+  data = obj.data;
+  shape = obj.shape;
+}
+
+Matrix &Matrix::operator=(const Matrix &obj) {
+  to_delete = false;
+  data = obj.data;
+  shape = obj.shape;
+  return *this;
+}
 
 Matrix::Matrix(vector<size_t> dimensions) : shape(dimensions) {
   total_size = 1;
   for (auto d : dimensions) {
     total_size *= d;
   }
-
-  data = new double[total_size];
+  std::cout << total_size;  
+  //buffer space to keep things a bit
+  data = new double[total_size + 100];
   to_delete = true;
 
   //fill with sentinel values
@@ -68,7 +82,6 @@ Matrix Matrix::operator[](size_t index) {
   return Matrix(&operator()(index), new_shape); //Matrix(operator()(index), shape);
 }
 
-
 double &Matrix::operator()(size_t index) {
   //do bound checking at some point
   int slice = 0;
@@ -76,7 +89,6 @@ double &Matrix::operator()(size_t index) {
   slice = index * pow(shape[size - 1], size - 1);
   return data[slice];
 }
-
 
 Matrix Matrix::operator+(Matrix other) {
   assert (shape.size() == other.shape.size());

@@ -1,5 +1,9 @@
 #include "graph.h"
 
+Graph::Graph () {
+  directory = {};
+}
+
 void Graph::insert(string s_type, string s_name, vector<string> inputs, vector<string> outputs, vector<string> in_args) {
   Layer * new_layer = nullptr;
   if (s_type.compare("debug") == 0) {
@@ -76,6 +80,6 @@ Graph::~Graph() {
   }
 
   for(int i = 0; i < names.size(); i++) {
-//    delete directory[names[i]];
+    delete directory[names[i]];
   }
 }
