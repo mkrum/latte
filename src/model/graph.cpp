@@ -76,6 +76,6 @@ Graph::~Graph() {
   }
 
   for(int i = 0; i < names.size(); i++) {
-    delete directory[names[i]];
+//    delete directory[names[i]];
   }
 }
