@@ -19,6 +19,9 @@ class Data : public Layer {
   private:  
     Matrix data;
     string path;
+    size_t width;
+    size_t length;
+    char delim;
 };
 
 #endif
