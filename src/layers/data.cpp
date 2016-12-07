@@ -21,15 +21,13 @@ Matrix &Data::forward(Matrix &inputs) {
   std::ifstream file_(path.c_str());
   string line;
 
-  for (size_t i = 0; i < 100; i++) {
+  for (size_t i = 0; i < length; i++) {
     for (size_t j = 0; j < width - 1; j++) {
       std::getline(file_, line, delim);
       data.get({ i , j }) = std::atof(line.c_str());
-      std::cout << std::atof(line.c_str()) << " ";
     }
     std::getline(file_, line);
-    data.get({i, width}) = std::atof(line.c_str());
-    std::cout << std::atof(line.c_str()) << " ";
+    data.get({i, width - 1}) = std::atof(line.c_str());
     std::cout << std::endl;
   }
 

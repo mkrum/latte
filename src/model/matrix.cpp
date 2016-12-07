@@ -24,13 +24,13 @@ Matrix::Matrix(vector<size_t> dimensions) : shape(dimensions) {
   for (auto d : dimensions) {
     total_size *= d;
   }
-  std::cout << total_size;  
+
   //buffer space to keep things a bit
-  data = new double[total_size + 100];
+  data = new double[total_size];
   to_delete = true;
 
   //fill with sentinel values
-  memset(data, -1.0, total_size*sizeof(double));
+  memset(data, -1.0, sizeof(*data));
 }
 
 
@@ -56,8 +56,15 @@ double &Matrix::get(vector<size_t> dim) {
   assert(dim.size() == shape.size());
   int index = 0;
   for(size_t i = 0; i < shape.size(); i++) {
-    index += dim[i] * pow(shape[i], i);
+    int adj = 1;
+
+    for(int j = i - 1 ; j >= 0; j--) {
+      adj = adj * shape[i]; 
+    } 
+
+    index += dim[i] * adj;
   }
+  std::cout << index << " ";
   return data[index];
 }
 

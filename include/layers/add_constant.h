@@ -18,7 +18,7 @@ class Add_Constant : public Layer {
     Matrix &backward(Matrix&);
   private:  
     Matrix data;
-    int constant; 
+    double constant; 
 };
 
 #endif
