@@ -10,7 +10,13 @@ debug {
 }
 
 add_constant {
-	name : final
-	in : print
+	name : add
+	in : data
 	constant : 1
+}
+
+output {
+	name : final
+	in : add
+	file : out.txt
 }

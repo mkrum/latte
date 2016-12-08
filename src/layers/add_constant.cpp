@@ -8,7 +8,6 @@ Add_Constant::Add_Constant(string in_name, vector<string> in, vector<string> out
 }
 
 Matrix &Add_Constant::forward(Matrix &inputs) {    
-  std::cout << constant;
   inputs + constant;
   return inputs;
 }

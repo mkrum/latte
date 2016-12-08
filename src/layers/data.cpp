@@ -28,7 +28,6 @@ Matrix &Data::forward(Matrix &inputs) {
     }
     std::getline(file_, line);
     data.get({i, width - 1}) = std::atof(line.c_str());
-    std::cout << std::endl;
   }
 
   file_.close();

@@ -7,15 +7,29 @@
 Matrix::Matrix() : to_delete(false) { }
 
 Matrix::Matrix(const Matrix &obj) {
-  to_delete = false;
-  data = obj.data;
   shape = obj.shape;
+  total_size = 1;
+  for (auto d : shape) {
+    total_size *= d;
+  }
+
+  data = new double[total_size];
+  to_delete = true;
+
+  memcpy(data, obj.data, total_size*sizeof(double));
 }
 
 Matrix &Matrix::operator=(const Matrix &obj) {
-  to_delete = false;
-  data = obj.data;
   shape = obj.shape;
+  total_size = 1;
+  for (auto d : shape) {
+    total_size *= d;
+  }
+
+  data = new double[total_size];
+  to_delete = true;
+
+  memcpy(data, obj.data, total_size*sizeof(double)); 
   return *this;
 }
 
@@ -25,22 +39,21 @@ Matrix::Matrix(vector<size_t> dimensions) : shape(dimensions) {
     total_size *= d;
   }
 
-  //buffer space to keep things a bit
   data = new double[total_size];
   to_delete = true;
 
   //fill with sentinel values
-  memset(data, -1.0, sizeof(*data));
+  memset(data, 0.0, total_size * sizeof(double));
 }
 
-
-//something about this feels dirty, but I think the scope will be okay
 Matrix::Matrix(double *in_data, vector<size_t> in_shape) : shape(in_shape), data(in_data) {
+
   total_size = 1;
   for (size_t i = 0; i < shape.size(); i++) {
     total_size *= shape[i];
   }
   to_delete = false;
+
 }
 
 
@@ -54,7 +67,9 @@ Matrix::~Matrix() {
 //get single value from dim
 double &Matrix::get(vector<size_t> dim) {
   assert(dim.size() == shape.size());
+
   int index = 0;
+
   for(size_t i = 0; i < shape.size(); i++) {
     int adj = 1;
 
@@ -64,7 +79,6 @@ double &Matrix::get(vector<size_t> dim) {
 
     index += dim[i] * adj;
   }
-  std::cout << index << " ";
   return data[index];
 }
 
@@ -93,7 +107,17 @@ double &Matrix::operator()(size_t index) {
   //do bound checking at some point
   int slice = 0;
   int size = shape.size();
-  slice = index * pow(shape[size - 1], size - 1);
+  
+  for(size_t i = 0; i < shape.size() - 1; i++) {
+    int adj = 1;
+
+    for(int j = i - 1 ; j >= 0; j--) {
+      adj = adj * shape[i]; 
+    } 
+
+    slice += index * adj;
+  }
+
   return data[slice];
 }
 
@@ -103,9 +127,6 @@ Matrix Matrix::operator+(Matrix other) {
   for (size_t i = 0; i < shape.size(); i++) {
     assert(shape[i] == other.shape[i]);
   }
-
-  std::cout << shape[0] << " " << shape[1] << std::endl << other.shape[0] << " " << other.shape[1] << 
-  std::endl;
 
   Matrix result(data, shape);
 
