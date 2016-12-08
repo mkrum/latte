@@ -8,3 +8,15 @@ debug {
 	in : data
 	name : print
 }
+
+add_constant {
+	name : add
+	in : data
+	constant : 1
+}
+
+output {
+	name : final
+	in : add
+	file : out.txt
+}

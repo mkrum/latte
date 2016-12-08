@@ -5,32 +5,33 @@ Data::Data(string in_name, vector<string> in, vector<string> out, vector<string>
   prev = in;
   next = out;
   path = in_args[1];
-  
-  size_t width = std::atoi(in_args[2].c_str());
-  size_t length = std::atoi(in_args[3].c_str());
-  char delim = *in_args[4].c_str();  
-  std::cout << length << std::endl;
-  std::cout << width << std::endl;
-  std::cout << delim << std::endl;
+  width = std::atoi(in_args[2].c_str());
+  length = std::atoi(in_args[3].c_str());
+  delim = *in_args[4].c_str();  
+
+}
+
+Matrix &Data::forward(Matrix &inputs) {    
+
   vector<size_t> shape;
   shape.push_back(width);
   shape.push_back(length);
   data = Matrix(shape);
 
-  std::ifstream file(path.c_str());
+  std::ifstream file_(path.c_str());
   string line;
 
-  for (int i = 0; i < length; i++) {
-    for (int j = 0; j < width; j++) {
-      std::getline(file, line, delim);
-      data[i](j) = std::atof(line.c_str());
-      std::cout << data[i](j) << " ";
+  for (size_t i = 0; i < length; i++) {
+    for (size_t j = 0; j < width - 1; j++) {
+      std::getline(file_, line, delim);
+      data.get({ i , j }) = std::atof(line.c_str());
     }
-    std::cout << std::endl;
+    std::getline(file_, line);
+    data.get({i, width - 1}) = std::atof(line.c_str());
   }
-}
 
-Matrix &Data::forward(Matrix &inputs) {    
+  file_.close();
+
   return data;
 }
 

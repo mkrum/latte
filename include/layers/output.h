@@ -1,5 +1,5 @@
-#ifndef DATA_H
-#define DATA_H
+#ifndef OUTPUT_H
+#define OUTPUT_H
 
 #include "../layer.h"
 #include "../matrix.h"
@@ -10,18 +10,15 @@
 
 using std::string;
 using std::vector;
+using std::cout;
 
-class Data : public Layer {
+class Output : public Layer {
   public:
-    Data(string, vector<string>, vector<string>, vector<string>);
+    Output(string, vector<string>, vector<string>, vector<string>);
     Matrix &forward(Matrix&);
     Matrix &backward(Matrix&);
   private:  
-    Matrix data;
     string path;
-    size_t width;
-    size_t length;
-    char delim;
 };
 
 #endif

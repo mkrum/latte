@@ -23,9 +23,14 @@ typedef struct {
 } model;
 
 
-PyObject *
+static void
+model_dealloc(model *self) {
+  self->ob_type->tp_free((PyObject*)self);
+}
+
+static PyObject *
 model_new(PyTypeObject *type, PyObject *args, PyObject *kwds) {
-  model *self = NULL;
+  model *self = (model *)type->tp_alloc(type, 0);
   self->index = 0;
   return (PyObject *)self;
 }
@@ -48,11 +53,11 @@ vector<string> read_PyList(PyObject *list) {
   }
 
   // You can't use the list after this
-  Py_DECREF(list);
+ //Py_DECREF(list);
   return args;
 }
 
-PyObject *
+static PyObject *
 add_layer(model *self, PyObject *args) {
   const char* type;
   const char* name;
@@ -67,6 +72,7 @@ add_layer(model *self, PyObject *args) {
 
   string s_type(type);
   string s_name(name);
+  
 
   vector<string> in_args = read_PyList(list_args);
   vector<string> inputs = read_PyList(list_in);
@@ -77,7 +83,7 @@ add_layer(model *self, PyObject *args) {
   return (PyObject *)self;
 }
 
-PyObject *
+static PyObject *
 run(model *self, PyObject *args) {
   const char* output;
 
@@ -106,10 +112,10 @@ static PyMethodDef model_methods[] = {
 static PyTypeObject model_type = {
     PyObject_HEAD_INIT(NULL)
     0,                         /*ob_size*/
-    "latte.make.model",             /*tp_name*/
+    "latte.make.model",        /*tp_name*/
     sizeof(model),             /*tp_basicsize*/
     0,                         /*tp_itemsize*/
-    0,                         /*tp_dealloc*/
+    (destructor)model_dealloc, /*tp_dealloc*/
     0,                         /*tp_print*/
     0,                         /*tp_getattr*/
     0,                         /*tp_setattr*/
@@ -140,7 +146,7 @@ static PyTypeObject model_type = {
     0,                         /* tp_descr_get */
     0,                         /* tp_descr_set */
     0,                         /* tp_dictoffset */
-    0,      /* tp_init */
+    0,                        /* tp_init */
     0,                         /* tp_alloc */
     model_new,                 /* tp_new */
 };

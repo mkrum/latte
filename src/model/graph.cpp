@@ -1,13 +1,21 @@
 #include "graph.h"
 
+Graph::Graph () {
+  directory = {};
+}
+
 void Graph::insert(string s_type, string s_name, vector<string> inputs, vector<string> outputs, vector<string> in_args) {
   Layer * new_layer = nullptr;
   if (s_type.compare("debug") == 0) {
     new_layer = new Debug(s_name, inputs, outputs, in_args);
-  }
-  else if (s_type.compare("data") == 0) {
+  } else if (s_type.compare("data") == 0) {
     new_layer = new Data(s_name, inputs, outputs, in_args);
+  } else if (s_type.compare("output") == 0) {
+    new_layer = new Output(s_name, inputs, outputs, in_args);
+  } else if (s_type.compare("add_constant") == 0) {
+    new_layer = new Add_Constant(s_name, inputs, outputs, in_args);
   }
+  
   directory.insert(std::make_pair(new_layer->name, new_layer));
 
 }
@@ -68,4 +76,14 @@ Matrix Graph::forward() {
   return buffer.top();
 }
 
+Graph::~Graph() {
+  vector<string> names;
+  for(std::unordered_map<string, Layer *>::iterator it = directory.begin();
+    it != directory.end(); ++it) {
+     names.push_back(it->first);
+  }
 
+  for(int i = 0; i < names.size(); i++) {
+    delete directory[names[i]];
+  }
+}

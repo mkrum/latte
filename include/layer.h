@@ -8,6 +8,7 @@
 class Layer {
   public:
     Layer() { };
+    Layer(const Layer &obj) { }
     virtual ~Layer() { };
     virtual Matrix &forward(Matrix &) = 0;
     virtual Matrix &backward(Matrix &) = 0;
