@@ -33,6 +33,6 @@ Matrix &Write::forward(Matrix &inputs) {
   return inputs;
 }
 
-Matrix &Write::backward(Matrix &inputs) {
-  return inputs;
+Matrix &Write::forward(vector<Matrix> &inputs) {
+  return inputs[0];
 }
