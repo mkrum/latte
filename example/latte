@@ -4,6 +4,9 @@ from latte.proto.read import PTX
 from latte.make import model
 import sys
 
+if len(sys.argv) != 3:
+    print "Improperly formated command"
+    exit()
 
 f = PTX(sys.argv[1])
 layers = f.compose()

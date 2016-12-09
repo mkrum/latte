@@ -40,6 +40,9 @@ void Graph::find_path(string in_path) {
 
   while(!frontier.empty()) {
     string curr = frontier.top();
+    if (directory.find(curr) == directory.end()) {
+      throw std::runtime_error("Misnamed Variable");
+    }
     frontier.pop();
     vector<string> next = directory[curr]->prev;
     for(int i = 0; i < next.size(); i++) {

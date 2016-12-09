@@ -1,0 +1,22 @@
+data {
+	name : grades
+	path : grades.txt
+}
+
+reduce_col {
+	name : col
+	in : grades
+	op : +
+}
+
+reduce_row {
+	name : row
+	in : col
+	op : /
+}
+
+write {
+	name : final
+	in : row
+	file : out.txt
+}
