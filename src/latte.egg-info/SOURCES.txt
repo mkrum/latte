@@ -13,6 +13,7 @@ latte/proto/test.py
 layers/add_constant.cpp
 layers/data.cpp
 layers/debug.cpp
+layers/output.cpp
 layers/reduce_col.cpp
 layers/reduce_row.cpp
 layers/sub_constant.cpp
