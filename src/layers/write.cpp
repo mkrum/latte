@@ -7,7 +7,7 @@ Write::Write(string in_name, vector<string> in, vector<string> out, vector<strin
   path = in_args[1];
 }
 
-Matrix &Write::forward(Matrix &inputs) {    
+Matrix &Write::forward(Matrix &inputs) {
   std::ofstream f(path);
 
 	if (!f.good())
@@ -25,14 +25,14 @@ Matrix &Write::forward(Matrix &inputs) {
   } else if (inputs.shape.size() == 1) {
      for(size_t i = 0; i < inputs.shape[0]; i++) {
         f << inputs.get({ i }) << std::endl;
-     } 
+     }
   } else {
-    std::cout << "Multi-dimensional output is not avaiable";
+    std::cout << "Multi-dimensional output is not avaiable" << std::endl;
   }
   f.close();
   return inputs;
 }
 
-Matrix &Write::forward(vector<Matrix> & inputs) {    
-  return inputs[0];
+Matrix &Write::backward(Matrix &inputs) {
+  return inputs;
 }
