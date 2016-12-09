@@ -8,11 +8,10 @@ Reduce_Row::Reduce_Row(string in_name, vector<string> in, vector<string> out, ve
 }
 
 Matrix &Reduce_Row::forward(Matrix &inputs) {    
-  Matrix reduced({ inputs.shape[1] });
-  
+  vector<double> rows; 
   for (size_t i = 0; i < inputs.shape[1]; i++) {
     double row = inputs.get({i, 0});
-    for (size_t j = 0; j < inputs.shape[0]; j++) {
+    for (size_t j = 1; j < inputs.shape[0]; j++) {
       switch (op){
         case '+':
           row += inputs.get({i, j});
@@ -28,10 +27,14 @@ Matrix &Reduce_Row::forward(Matrix &inputs) {
           break;
       }
     }
-    reduced.get({ i }) = row;
+    rows.push_back(row);
   }
-  inputs.data = reduced.data;
-  inputs.shape = reduced.shape;
+
+  inputs.shape = { 1, inputs.shape[1] };
+  for (size_t i = 0; i < rows.size(); i++) {
+    inputs.get({i, 0}) = rows[i];
+  }
+
   return inputs;
 }
 

@@ -1,22 +1,22 @@
 data {
 	name : data
-	path : data.txt
-}
-
-reduce_row {
-	name : row
-	in : add
-	op : +
+	path : grades.txt
 }
 
 reduce_col {
 	name : col
-	in : row
+	in : data
 	op : +
+}
+
+reduce_row {
+	name : row
+	in : col
+	op : /
 }
 
 write {
 	name : final
-	in : col
+	in : row
 	file : out.txt
 }
