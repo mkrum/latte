@@ -10,11 +10,22 @@ void Graph::insert(string s_type, string s_name, vector<string> inputs, vector<s
     new_layer = new Debug(s_name, inputs, outputs, in_args);
   } else if (s_type.compare("data") == 0) {
     new_layer = new Data(s_name, inputs, outputs, in_args);
-  } else if (s_type.compare("output") == 0) {
-    new_layer = new Output(s_name, inputs, outputs, in_args);
+  } else if (s_type.compare("write") == 0) {
+    new_layer = new Write(s_name, inputs, outputs, in_args);
   } else if (s_type.compare("add_constant") == 0) {
     new_layer = new Add_Constant(s_name, inputs, outputs, in_args);
+  } else if (s_type.compare("sub_constant") == 0) {
+    new_layer = new Sub_Constant(s_name, inputs, outputs, in_args);
+  } else if (s_type.compare("reduce_row") == 0) {
+    new_layer = new Reduce_Row(s_name, inputs, outputs, in_args);
+  } else if (s_type.compare("reduce_col") == 0) {
+    new_layer = new Reduce_Col(s_name, inputs, outputs, in_args);
+  } else if (s_type.compare("output") == 0) {
+    new_layer = new Reduce_Col(s_name, inputs, outputs, in_args);
+  } else {
+    throw std::runtime_error("Undefined Layer");
   }
+
   
   directory.insert(std::make_pair(new_layer->name, new_layer));
 
@@ -29,6 +40,9 @@ void Graph::find_path(string in_path) {
 
   while(!frontier.empty()) {
     string curr = frontier.top();
+    if (directory.find(curr) == directory.end()) {
+      throw std::runtime_error("Misnamed Variable");
+    }
     frontier.pop();
     vector<string> next = directory[curr]->prev;
     for(int i = 0; i < next.size(); i++) {
@@ -62,7 +76,7 @@ Matrix Graph::forward() {
       out = buffer.top();
       buffer.pop();
       out = curr_layer->forward(out);
-    } else if (curr_layer->prev.size() == 3) {
+    } else if (curr_layer->prev.size() > 2) {
       out = buffer.top();
       buffer.pop();
       buffer.pop();

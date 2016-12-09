@@ -4,31 +4,27 @@ Output::Output(string in_name, vector<string> in, vector<string> out, vector<str
   name = in_name;
   prev = in;
   next = out;
-  path = in_args[1];
 }
 
-Matrix &Output::forward(Matrix &inputs) {    
-  std::ofstream f(path);
-
-	if (!f.good())
-	{
-		std::cout << "Error opening file" << std::endl;
-	}
-
-  if (inputs.shape.size() < 3) {
+Matrix &Output::forward(Matrix &inputs) {
+  if (inputs.shape.size() == 2) {
     for (size_t i = 0; i < inputs.shape[1]; i++) {
       for (size_t j = 0; j < inputs.shape[0]; j++) {
-        f << inputs.get({i, j}) << " ";
+        cout << inputs.get({i, j}) << " ";
       }
-      f << std::endl;
+      cout << std::endl;
     }
+  } else if (inputs.shape.size() == 1) {
+     for(size_t i = 0; i < inputs.shape[0]; i++) {
+        cout << inputs.get({ i }) << std::endl;
+     }
   } else {
-    std::cout << "Multi-dimensional output is not avaiable";
+    cout << "Multi-dimensional output is not avaiable" << std::endl;
   }
-  f.close();
+
   return inputs;
 }
 
-Matrix &Output::backward(Matrix &inputs) {    
+Matrix &Output::backward(Matrix &inputs) {
   return inputs;
 }

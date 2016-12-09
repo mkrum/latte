@@ -1,5 +1,5 @@
-#ifndef CONCAT_H
-#define CONCAT_H
+#ifndef REDUCE_COL_H
+#define REDUCE_COL_H
 
 #include "../layer.h"
 #include "../matrix.h"
@@ -7,19 +7,18 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
-#include <algorithm>
 
 using std::string;
 using std::vector;
 
-class Concat : public Layer {
+class Reduce_Col : public Layer {
   public:
-    Concat(string, vector<string>, vector<string>, vector<string>);
+    Reduce_Col(string, vector<string>, vector<string>, vector<string>);
     Matrix &forward(Matrix&);
     Matrix &forward(vector<Matrix> &);
   private:  
     Matrix data;
-    double constant; 
+    char op;
 };
 
 #endif

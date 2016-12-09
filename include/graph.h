@@ -12,8 +12,12 @@
 #include "layer.h"
 #include "layers/data.h"
 #include "layers/debug.h"
-#include "layers/output.h"
+#include "layers/write.h"
 #include "layers/add_constant.h"
+#include "layers/sub_constant.h"
+#include "layers/reduce_row.h"
+#include "layers/reduce_col.h"
+#include "layers/concat.h"
 
 using std::string;
 

@@ -11,9 +11,14 @@ latte/proto/layer.py
 latte/proto/read.py
 latte/proto/test.py
 layers/add_constant.cpp
+layers/concat.cpp
 layers/data.cpp
 layers/debug.cpp
 layers/output.cpp
+layers/reduce_col.cpp
+layers/reduce_row.cpp
+layers/sub_constant.cpp
+layers/write.cpp
 model/graph.cpp
 model/makemodule.cpp
 model/matrix.cpp

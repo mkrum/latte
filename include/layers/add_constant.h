@@ -15,7 +15,7 @@ class Add_Constant : public Layer {
   public:
     Add_Constant(string, vector<string>, vector<string>, vector<string>);
     Matrix &forward(Matrix&);
-    Matrix &backward(Matrix&);
+    Matrix &forward(vector<Matrix> &);
   private:  
     Matrix data;
     double constant; 

@@ -12,6 +12,6 @@ Matrix &Debug::forward(Matrix &inputs) {
   return inputs;
 }
 
-Matrix &Debug::backward(Matrix &inputs) {
-  return inputs;
+Matrix &Debug::forward(vector<Matrix> & inputs) {
+  return inputs[0];
 }

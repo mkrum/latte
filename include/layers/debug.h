@@ -15,7 +15,7 @@ class Debug : public Layer {
   public:
     Debug(string, vector<string>, vector<string>,vector<string>);
     Matrix &forward(Matrix&);
-    Matrix &backward(Matrix&);
+    Matrix &forward(vector<Matrix> &);
   private:  
     
 };
