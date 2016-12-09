@@ -1,6 +1,6 @@
 data {
 	name : data
-	path : grades.txt
+	path : input.txt
 }
 
 reduce_col {
