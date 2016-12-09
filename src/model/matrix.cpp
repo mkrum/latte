@@ -106,7 +106,6 @@ Matrix Matrix::operator[](size_t index) {
 double &Matrix::operator()(size_t index) {
   //do bound checking at some point
   int slice = 0;
-  int size = shape.size();
   
   for(size_t i = 0; i < shape.size() - 1; i++) {
     int adj = 1;
@@ -147,6 +146,14 @@ Matrix Matrix::operator+(double constant) {
   return *this;
 }
 
+Matrix Matrix::operator-(double constant) {
+
+  for(size_t i = 0; i < total_size; i++) {
+    data[i] = data[i] - constant;
+  }
+
+  return *this;
+}
 
 Matrix Matrix::operator*(Matrix other) {
   assert (shape.size() == 2);

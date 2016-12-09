@@ -1,13 +1,13 @@
-#include "layers/output.h"
+#include "layers/write.h"
 
-Output::Output(string in_name, vector<string> in, vector<string> out, vector<string> in_args) {
+Write::Write(string in_name, vector<string> in, vector<string> out, vector<string> in_args) {
   name = in_name;
   prev = in;
   next = out;
   path = in_args[1];
 }
 
-Matrix &Output::forward(Matrix &inputs) {    
+Matrix &Write::forward(Matrix &inputs) {    
   std::ofstream f(path);
 
 	if (!f.good())
@@ -15,13 +15,17 @@ Matrix &Output::forward(Matrix &inputs) {
 		std::cout << "Error opening file" << std::endl;
 	}
 
-  if (inputs.shape.size() < 3) {
+  if (inputs.shape.size() == 2) {
     for (size_t i = 0; i < inputs.shape[1]; i++) {
       for (size_t j = 0; j < inputs.shape[0]; j++) {
         f << inputs.get({i, j}) << " ";
       }
       f << std::endl;
     }
+  } else if (inputs.shape.size() == 1) {
+     for(size_t i = 0; i < inputs.shape[0]; i++) {
+        f << inputs.get({ i }) << std::endl;
+     } 
   } else {
     std::cout << "Multi-dimensional output is not avaiable";
   }
@@ -29,6 +33,6 @@ Matrix &Output::forward(Matrix &inputs) {
   return inputs;
 }
 
-Matrix &Output::backward(Matrix &inputs) {    
+Matrix &Write::backward(Matrix &inputs) {    
   return inputs;
 }

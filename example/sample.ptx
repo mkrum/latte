@@ -9,14 +9,26 @@ debug {
 	name : print
 }
 
-add_constant {
+sub_constant {
 	name : add
 	in : data
 	constant : 1
 }
 
-output {
-	name : final
+reduce_row {
+	name : row
 	in : add
+	op : *
+}
+
+reduce_col {
+	name : col
+	in : data
+	op : +
+}
+
+write {
+	name : final
+	in : col
 	file : out.txt
 }

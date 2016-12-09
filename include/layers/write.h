@@ -1,5 +1,5 @@
-#ifndef OUTPUT_H
-#define OUTPUT_H
+#ifndef WRITE_H
+#define WRITE_H
 
 #include "../layer.h"
 #include "../matrix.h"
@@ -12,9 +12,9 @@ using std::string;
 using std::vector;
 using std::cout;
 
-class Output : public Layer {
+class Write : public Layer {
   public:
-    Output(string, vector<string>, vector<string>, vector<string>);
+    Write(string, vector<string>, vector<string>, vector<string>);
     Matrix &forward(Matrix&);
     Matrix &backward(Matrix&);
   private:  

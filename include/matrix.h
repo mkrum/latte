@@ -25,6 +25,7 @@ class Matrix {
     Matrix operator+(double);
     Matrix operator*(Matrix);
     Matrix operator*(double);
+    Matrix operator-(double);
     Matrix &operator=(const Matrix &);
     Matrix cross(Matrix);
     vector<size_t> shape;
@@ -32,7 +33,6 @@ class Matrix {
   private:
     size_t total_size;
     bool to_delete;
-//    double *data;
 };
 
 
