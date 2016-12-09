@@ -1,8 +1,0 @@
-debug {
-	name : A
-}
-
-debug {
-	in : A
-	name : B
-}

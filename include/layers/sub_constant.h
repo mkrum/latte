@@ -15,7 +15,7 @@ class Sub_Constant : public Layer {
   public:
     Sub_Constant(string, vector<string>, vector<string>, vector<string>);
     Matrix &forward(Matrix&);
-    Matrix &backward(Matrix&);
+    Matrix &forward(vector<Matrix> &);
   private:  
     Matrix data;
     double constant; 

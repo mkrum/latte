@@ -12,6 +12,7 @@ def find_seperator(line):
     for i in line:
         if i not in '.0123456789':
             return i 
+    return '\n'
 
 def check_lines(path, lines):
     sep = find_seperator(lines[0])
@@ -20,7 +21,7 @@ def check_lines(path, lines):
     for line in lines:    
         line = line.rstrip()
         line = line.split(sep)
-        if len(line) != width:
+        if len(line) != width and len(line) != 1:
             raise ValueError("Inconsistent number of entries per line in "+path+": "+sep.join(line))
 
         for l in line:

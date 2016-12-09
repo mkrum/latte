@@ -31,10 +31,10 @@ Matrix &Reduce_Row::forward(Matrix &inputs) {
     reduced.get({ i }) = row;
   }
   inputs.data = reduced.data;
-  inputs.shape = { inputs.shape[1] };
+  inputs.shape = reduced.shape;
   return inputs;
 }
 
-Matrix &Reduce_Row::backward(Matrix &inputs) {    
-  return inputs;
+Matrix &Reduce_Row::forward(vector<Matrix> & inputs) {    
+  return inputs[0];
 }

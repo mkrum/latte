@@ -35,6 +35,6 @@ Matrix &Data::forward(Matrix &inputs) {
   return data;
 }
 
-Matrix &Data::backward(Matrix &inputs) {    
-  return inputs;
+Matrix &Data::forward(vector<Matrix> & inputs) {    
+  return inputs[0];
 }

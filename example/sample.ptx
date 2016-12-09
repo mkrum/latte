@@ -1,29 +1,17 @@
 data {
 	name : data
 	path : data.txt
-	out : print
-}
-
-debug {
-	in : data
-	name : print
-}
-
-sub_constant {
-	name : add
-	in : data
-	constant : 1
 }
 
 reduce_row {
 	name : row
 	in : add
-	op : *
+	op : +
 }
 
 reduce_col {
 	name : col
-	in : data
+	in : row
 	op : +
 }
 

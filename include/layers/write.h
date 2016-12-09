@@ -16,7 +16,7 @@ class Write : public Layer {
   public:
     Write(string, vector<string>, vector<string>, vector<string>);
     Matrix &forward(Matrix&);
-    Matrix &backward(Matrix&);
+    Matrix &forward(vector<Matrix> &);
   private:  
     string path;
 };

@@ -17,6 +17,7 @@
 #include "layers/sub_constant.h"
 #include "layers/reduce_row.h"
 #include "layers/reduce_col.h"
+#include "layers/concat.h"
 
 using std::string;
 

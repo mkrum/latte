@@ -20,7 +20,11 @@ void Graph::insert(string s_type, string s_name, vector<string> inputs, vector<s
     new_layer = new Reduce_Row(s_name, inputs, outputs, in_args);
   } else if (s_type.compare("reduce_col") == 0) {
     new_layer = new Reduce_Col(s_name, inputs, outputs, in_args);
+  } else {
+    throw std::runtime_error("Undefined Layer");
   }
+
+  
   directory.insert(std::make_pair(new_layer->name, new_layer));
 
 }
@@ -67,7 +71,7 @@ Matrix Graph::forward() {
       out = buffer.top();
       buffer.pop();
       out = curr_layer->forward(out);
-    } else if (curr_layer->prev.size() == 3) {
+    } else if (curr_layer->prev.size() > 2) {
       out = buffer.top();
       buffer.pop();
       buffer.pop();

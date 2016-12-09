@@ -15,7 +15,7 @@ class Reduce_Col : public Layer {
   public:
     Reduce_Col(string, vector<string>, vector<string>, vector<string>);
     Matrix &forward(Matrix&);
-    Matrix &backward(Matrix&);
+    Matrix &forward(vector<Matrix> &);
   private:  
     Matrix data;
     char op;

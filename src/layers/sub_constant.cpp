@@ -12,6 +12,6 @@ Matrix &Sub_Constant::forward(Matrix &inputs) {
   return inputs;
 }
 
-Matrix &Sub_Constant::backward(Matrix &inputs) {    
-  return inputs;
+Matrix &Sub_Constant::forward(vector<Matrix> & inputs) {    
+  return inputs[0];
 }

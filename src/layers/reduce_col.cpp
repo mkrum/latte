@@ -8,7 +8,7 @@ Reduce_Col::Reduce_Col(string in_name, vector<string> in, vector<string> out, ve
 }
 
 Matrix &Reduce_Col::forward(Matrix &inputs) {    
-  Matrix reduced({ inputs.shape[0] });
+  Matrix reduced({ inputs.shape[1] });
   
   for (size_t i = 0; i < inputs.shape[0]; i++) {
     double col = inputs.get({0, i});
@@ -29,13 +29,15 @@ Matrix &Reduce_Col::forward(Matrix &inputs) {
       }
     }
     std::cout << col << " ";
-    reduced.get({ 0, i }) = col;
+    reduced.get({ i }) = col;
+
   }
+
   inputs.data = reduced.data;
-  inputs.shape = {  inputs.shape[0], 1 };
+  inputs.shape = reduced.shape;
   return inputs;
 }
 
-Matrix &Reduce_Col::backward(Matrix &inputs) {    
-  return inputs;
+Matrix &Reduce_Col::forward(vector<Matrix> & inputs) {    
+  return inputs[0];
 }

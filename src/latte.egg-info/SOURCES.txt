@@ -11,6 +11,7 @@ latte/proto/layer.py
 latte/proto/read.py
 latte/proto/test.py
 layers/add_constant.cpp
+layers/concat.cpp
 layers/data.cpp
 layers/debug.cpp
 layers/reduce_col.cpp
