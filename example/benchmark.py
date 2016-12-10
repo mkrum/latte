@@ -6,7 +6,7 @@ from random import randint
 import time
 
 
-for i in [1, 10, 100, 1000, 10000, 100000, 10000000000000000000000]:
+for i in [1, 10, 100, 1000, 10000, 100000]:
 	fo = open("input.txt", "w")
 	for j in range(i):
 		for k in range(i):
