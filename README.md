@@ -5,7 +5,7 @@ Developed by: Michael Krumdick, Tristan Mitchell, Matthew Lanus
 
 A minimal dependency network builder styled after Caffe, built for customizability
 
-- Disclaimer: Program currently only works on Mac machines - linux machines will receive an error
+- Disclaimer: Program currently only works on Mac machines - linux machines will sometimes get errors
 
 How to use the latte:
 
@@ -18,7 +18,6 @@ How to use the latte:
 		To find layers that one can use please navigate to src/layers/
 	2. Create an input file for the .ptx file
 	3. Run $./latte <ptx.ptx> <name of last layer of .ptx file>
-
 
 Benchmarks:
 
@@ -42,3 +41,13 @@ Benchmarks:
 		Run time of latte for 1000 rows and cols is 0.00040 seconds
 		Run time of latte for 10000 rows and cols is 0.00046 seconds
 
+Individual Contributions:
+
+	Michael Krumdick - Created the Python-C++ interface and connected the layers of the graph 
+	together. Also helped debug errors until the graph worked as expected.
+	
+	Matt Lanus - Worked on the graph class, helped with output formatting, ran the benchmarks, and 
+	helped with the README write-up.
+	
+	Tristan Mitchell - Worked on the matrix class operations to organize input, helped debug graph 
+	errors, made test suite, and helped with README write-up.
